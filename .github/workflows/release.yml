@@ -132,7 +132,7 @@ jobs:
           go-version: 1.15
       - name: Docker Login
         run: docker login --username "$DOCKER_USER" --password-stdin <<< "$DOCKER_PASS"
-    - name: Push images with version tag
+      - name: Push images with version tag
         env:
           CTR_TAG: ${{ needs.version.outputs.version }}
           IMAGE_REPO: openservicemesh
