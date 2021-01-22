@@ -136,9 +136,8 @@ jobs:
         env:
           CTR_TAG: ${{ needs.version.outputs.version }}
           IMAGE_REPO: openservicemesh
-          IMAGE_TAG_LIST: '["bookbuyer","bookthief","bookstore","bookwarehouse","tcp-echo-server","tcp-client","init","osm-controller"]'
         run: |
-          for image_tag in $(echo "${IMAGE_TAG_LIST}" | jq -r '.[]')
+          for image_tag in bookbuyer bookthief bookstore bookwarehouse tcp-echo-server tcp-client init osm-controller
             do
               tokenUri="https://auth.docker.io/token?service=registry.docker.io&scope=repository:${IMAGE_REPO}/$image_tag:pull"
               bearerToken="$(curl --silent --get $tokenUri | jq --raw-output '.token')"
