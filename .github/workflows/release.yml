@@ -135,21 +135,7 @@ jobs:
       - name: Push images with version tag
         env:
           CTR_TAG: ${{ needs.version.outputs.version }}
-          IMAGE_REPO: openservicemesh
-        run: |
-          for image_tag in bookbuyer bookthief bookstore bookwarehouse tcp-echo-server tcp-client init osm-controller
-            do
-              tokenUri="https://auth.docker.io/token?service=registry.docker.io&scope=repository:${IMAGE_REPO}/$image_tag:pull"
-              bearerToken="$(curl --silent --get $tokenUri | jq --raw-output '.token')"
-              listUri="https://registry-1.docker.io/v2/${IMAGE_REPO}/$image_tag/tags/list"
-              authz="Authorization: Bearer $bearerToken"
-              version_list="$(curl --silent --get -H "Accept: application/json" -H "$authz" $listUri | jq --raw-output '.')"
-              exists=$(echo $version_list | jq --arg t ${CTR_TAG} '.tags | index($t)')
-              if [[ $exists == null ]]
-              then
-                make docker-push-$image_tag
-              fi
-            done
+        run: make docker-push VERIFY_TAGS=1
       - name: Push images with latest tag
         env:
           CTR_TAG: latest
