@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - autoMergeTest
     paths-ignore:
       - "docs/**"
       - "**.md"
