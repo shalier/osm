@@ -35,4 +35,4 @@ jobs:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }} #"${{ secrets.GITHUB_TOKEN }}"
           MERGE_METHOD: "squash"
           UPDATE_LABELS: "automerge"
-          UPDATE_METHOD: "rebase"
+          UPDATE_METHOD: "merge"
