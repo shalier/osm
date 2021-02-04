@@ -35,7 +35,7 @@ jobs:
         issueTime=$(date +%s)
         expireTime=$(date -d "$EXPIRE_TIME + 600 seconds" +%s)
         header=$(echo '{ "alg": "RS256", "typ": "JWT" }' | jq -r '(. | @base64)')
-        payload=$(echo '{"iss":"$APPID","iat": '$ISSUE_TIME' ,"exp":'$EXPIRE_TIME'}'| jq -r '(. | @base64)'| sed s/\+/-/ | sed -E s/=+$//)
+        payload=$(echo '{"iss": '"$APPID"',"iat": '$ISSUE_TIME' ,"exp":'$EXPIRE_TIME'}'| jq -r '(. | @base64)'| sed s/\+/-/ | sed -E s/=+$//)
         echo $payload
         signature=$(echo -n "$header.$payload" | openssl dgst -sha256 -binary -sign $PK | openssl enc -base64 | tr -d '\n=' | tr -- '+/' '-_')
         echo $signature
