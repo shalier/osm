@@ -40,7 +40,7 @@ jobs:
     - name: automerge
       uses: "pascalgn/automerge-action@v0.13.0"
       env:
-        GITHUB_TOKEN: $token
+        GITHUB_TOKEN: "$token"
         MERGE_METHOD: "merge"
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
         UPDATE_LABELS: "automerge"
