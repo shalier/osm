@@ -31,7 +31,7 @@ jobs:
         header=$(echo '{ "alg": "RS256", "typ": "JWT" }' | jq -r '(. | @base64)')
         payload=$(echo '{"iss": '"${{secrets.APP_ID}}"',"iat": '$issueTime' ,"exp":'$expireTime'}'| jq -r '(. | @base64)'| sed s/\+/-/ | sed -E s/=+$//)
         echo p: $payload
-        signature=$(echo -n "$header.$payload" | openssl dgst -sha256 -binary -sign ${{secrets.APP_PRIVATE_KEY}} | openssl enc -base64 | tr -d '\n=' | tr -- '+/' '-_')
+        signature=$(echo -n "$header.$payload" | openssl dgst -sha256 -binary -sign '${{secrets.APP_PRIVATE_KEY}}' | openssl enc -base64 | tr -d '\n=' | tr -- '+/' '-_')
         echo s: $signature
         tokenURL=$(curl -i -X GET -H "Authorization: Bearer $header.$payload.$signature" -H "Accept: application/vnd.github.v3+json" https://api.github.com/app/installations | grep 'access_tokens_url' | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
         echo t: $tokenURL
@@ -39,9 +39,9 @@ jobs:
         echo "::set-output name=token::$token
     - name: automerge
       uses: "pascalgn/automerge-action@v0.13.0"
-    env:
-      GITHUB_TOKEN: $token
-      MERGE_METHOD: "merge"
-      MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
-      UPDATE_LABELS: "automerge"
-      UPDATE_METHOD: "rebase"
+      env:
+        GITHUB_TOKEN: $token
+        MERGE_METHOD: "merge"
+        MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
+        UPDATE_LABELS: "automerge"
+        UPDATE_METHOD: "rebase"
