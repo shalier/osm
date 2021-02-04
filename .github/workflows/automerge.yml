@@ -39,10 +39,8 @@ jobs:
         echo "::set-output name=token::$token"
     - name: automerge
       uses: "pascalgn/automerge-action@v0.13.0"
-      with:
-        args: "--trace"
       env:
-        GITHUB_TOKEN: "$token"
+        GITHUB_TOKEN: "${{secrets.JWT}}"
         MERGE_METHOD: "merge"
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
         UPDATE_LABELS: "automerge"
