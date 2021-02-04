@@ -43,4 +43,5 @@ jobs:
       GITHUB_TOKEN: $token
       MERGE_METHOD: "merge"
       MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
+      UPDATE_LABELS: "automerge"
       UPDATE_METHOD: "rebase"
