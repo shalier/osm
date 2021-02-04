@@ -45,8 +45,9 @@ jobs:
       runs-on: ubuntu-latest
       needs: generateToken
       uses: "pascalgn/automerge-action@v0.13.0"
-      env:
-        GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }} #"${{ secrets.GITHUB_TOKEN }}"
-        MERGE_METHOD: "merge"
-        MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
-        UPDATE_METHOD: "rebase"
+    env:
+      GITHUB_TOKEN: $token
+      MERGE_METHOD: "merge"
+      MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
+      UPDATE_METHOD: "rebase"
+      
