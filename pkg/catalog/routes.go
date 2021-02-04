@@ -175,6 +175,7 @@ func (mc *MeshCatalog) GetWeightedClusterForService(svc service.MeshService) (se
 // GetResolvableHostnamesForUpstreamService returns the hostnames over which an upstream service is accessible from a downstream service
 // The hostname is the FQDN for the service, and can include ports as well.
 // Ex. bookstore.default, bookstore.default:80, bookstore.default.svc, bookstore.default.svc:80 etc.
+// TODO : remove as a part of routes refactor (#2397)
 func (mc *MeshCatalog) GetResolvableHostnamesForUpstreamService(downstream, upstream service.MeshService) ([]string, error) {
 	sameNamespace := downstream.Namespace == upstream.Namespace
 	var svcHostnames []string
@@ -474,47 +475,6 @@ func (mc *MeshCatalog) routesFromRules(rules []access.TrafficTargetRule, traffic
 	return routes, nil
 }
 
-// GetServicesForServiceAccounts returns a list of services corresponding to a list service accounts
-//	TODO: Consider merging this function and mc.GetServicesForServiceAccount in future (#2038)
-func (mc *MeshCatalog) GetServicesForServiceAccounts(saList []service.K8sServiceAccount) []service.MeshService {
-	serviceMap := map[service.MeshService]bool{}
-
-	for _, sa := range saList {
-		services, err := mc.GetServicesForServiceAccount(sa)
-		if err != nil {
-			log.Error().Err(err).Msgf("Error getting services linked to Service Account %s", sa)
-			continue
-		} else {
-			for _, s := range services {
-				serviceMap[s] = true
-			}
-		}
-	}
-
-	serviceList := []service.MeshService{}
-	for k := range serviceMap {
-		serviceList = append(serviceList, k)
-	}
-
-	return serviceList
-}
-
-// GetHostnamesForUpstreamService returns the hostnames over which an upstream service is accessible from a downstream service
-// The hostname is the FQDN for the service, and can include ports as well.
-// Ex. bookstore.default, bookstore.default:80, bookstore.default.svc, bookstore.default.svc:80 etc.
-// TODO: replace GetResolvableHostnamesForUpstreamService with this func once routes refactor is complete (#issue)
-func (mc *MeshCatalog) GetHostnamesForUpstreamService(downstream, upstream service.MeshService) ([]string, error) {
-	sameNamespace := downstream.Namespace == upstream.Namespace
-	// The hostnames for this service are the Kubernetes service DNS names
-	hostnames, err := mc.getServiceHostnames(upstream, sameNamespace)
-	if err != nil {
-		log.Error().Err(err).Msgf("Error getting service hostnames for upstream service %s", upstream)
-		return nil, err
-	}
-
-	return hostnames, nil
-}
-
 // listMeshServices returns all services in the mesh
 func (mc *MeshCatalog) listMeshServices() []service.MeshService {
 	services := []service.MeshService{}
@@ -619,7 +579,7 @@ func (mc *MeshCatalog) listPoliciesFromTrafficTargets(sa service.K8sServiceAccou
 		}
 
 		if t.Spec.Destination.Name == sa.Name { // found inbound
-			inboundPolicies = trafficpolicy.MergeInboundPolicies(inboundPolicies, mc.buildInboundPolicies(t)...)
+			inboundPolicies = trafficpolicy.MergeInboundPolicies(false, inboundPolicies, mc.buildInboundPolicies(t)...)
 		}
 
 		for _, source := range t.Spec.Sources {

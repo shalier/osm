@@ -83,117 +83,6 @@ func TestIsValidTrafficTarget(t *testing.T) {
 	}
 }
 
-func TestGetHostnamesForUpstreamService(t *testing.T) {
-	assert := tassert.New(t)
-
-	mc := newFakeMeshCatalogForRoutes(t, testParams{})
-
-	testCases := []struct {
-		name              string
-		upstream          service.MeshService
-		downstream        service.MeshService
-		expectedHostnames []string
-		expectedErr       bool
-	}{
-		{
-			name:     "When upstream and downstream are  in same namespace",
-			upstream: tests.BookstoreV1Service,
-			downstream: service.MeshService{
-				Namespace: "default",
-				Name:      "foo",
-			},
-			expectedHostnames: tests.BookstoreV1Hostnames,
-			expectedErr:       false,
-		},
-		{
-			name:     "When upstream and downstream are not in same namespace",
-			upstream: tests.BookstoreV1Service,
-			downstream: service.MeshService{
-				Namespace: "bar",
-				Name:      "foo",
-			},
-			expectedHostnames: []string{
-				"bookstore-v1.default",
-				"bookstore-v1.default.svc",
-				"bookstore-v1.default.svc.cluster",
-				"bookstore-v1.default.svc.cluster.local",
-				"bookstore-v1.default:8888",
-				"bookstore-v1.default.svc:8888",
-				"bookstore-v1.default.svc.cluster:8888",
-				"bookstore-v1.default.svc.cluster.local:8888",
-			},
-			expectedErr: false,
-		},
-		{
-			name: "When upstream service does not exist",
-			upstream: service.MeshService{
-				Namespace: "bar",
-				Name:      "DoesNotExist",
-			},
-			downstream: service.MeshService{
-				Namespace: "bar",
-				Name:      "foo",
-			},
-			expectedHostnames: nil,
-			expectedErr:       true,
-		},
-	}
-
-	for _, tc := range testCases {
-		t.Run(fmt.Sprintf("Testing hostnames when %s svc reaches %s svc", tc.downstream, tc.upstream), func(t *testing.T) {
-			actual, err := mc.GetHostnamesForUpstreamService(tc.downstream, tc.upstream)
-			if tc.expectedErr == false {
-				assert.Nil(err)
-			} else {
-				assert.NotNil(err)
-			}
-			assert.Equal(actual, tc.expectedHostnames, tc.name)
-		})
-	}
-}
-
-func TestGetServicesForServiceAccounts(t *testing.T) {
-	assert := tassert.New(t)
-	mc := newFakeMeshCatalog()
-
-	testCases := []struct {
-		name     string
-		input    []service.K8sServiceAccount
-		expected []service.MeshService
-	}{
-		{
-			name:     "multiple service accounts and services",
-			input:    []service.K8sServiceAccount{tests.BookstoreServiceAccount, tests.BookbuyerServiceAccount},
-			expected: []service.MeshService{tests.BookbuyerService, tests.BookstoreV1Service, tests.BookstoreV2Service, tests.BookstoreApexService},
-		},
-		{
-			name:     "single service account and service",
-			input:    []service.K8sServiceAccount{tests.BookbuyerServiceAccount},
-			expected: []service.MeshService{tests.BookbuyerService},
-		},
-		{
-			name: "service account does not exist",
-			input: []service.K8sServiceAccount{{
-				Name:      "DoesNotExist",
-				Namespace: "default",
-			}},
-			expected: []service.MeshService{},
-		},
-		{
-			name:     "duplicate service accounts and services",
-			input:    []service.K8sServiceAccount{tests.BookbuyerServiceAccount, tests.BookbuyerServiceAccount},
-			expected: []service.MeshService{tests.BookbuyerService},
-		},
-	}
-
-	for _, tc := range testCases {
-		t.Run(fmt.Sprintf("Testing GetServicesForServiceAccounts where %s", tc.name), func(t *testing.T) {
-			actual := mc.GetServicesForServiceAccounts(tc.input)
-			assert.ElementsMatch(tc.expected, actual)
-		})
-	}
-}
-
 func TestRoutesFromRules(t *testing.T) {
 	assert := tassert.New(t)
 	mc := MeshCatalog{meshSpec: smi.NewFakeMeshSpecClient()}
@@ -555,6 +444,7 @@ func TestGetDefaultWeightedClusterForService(t *testing.T) {
 	assert.Equal(actual, expected)
 }
 
+// TODO : remove as a part of routes refactor (#2397)
 func TestGetResolvableHostnamesForUpstreamService(t *testing.T) {
 	assert := tassert.New(t)
 

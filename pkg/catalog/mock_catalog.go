@@ -69,6 +69,21 @@ func (mr *MockMeshCatalogerMockRecorder) GetIngressRoutesPerHost(arg0 interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetIngressRoutesPerHost", reflect.TypeOf((*MockMeshCataloger)(nil).GetIngressRoutesPerHost), arg0)
 }
 
+// GetIngressPoliciesForService mocks base method
+func (m *MockMeshCataloger) GetIngressPoliciesForService(arg0 service.MeshService, arg1 service.K8sServiceAccount) ([]*trafficpolicy.InboundTrafficPolicy, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetIngressPoliciesForService", arg0, arg1)
+	ret0, _ := ret[0].([]*trafficpolicy.InboundTrafficPolicy)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetIngressPoliciesForService indicates an expected call of GetIngressPoliciesForService
+func (mr *MockMeshCatalogerMockRecorder) GetIngressPoliciesForService(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetIngressPoliciesForService", reflect.TypeOf((*MockMeshCataloger)(nil).GetIngressPoliciesForService), arg0, arg1)
+}
+
 // GetPortToProtocolMappingForService mocks base method
 func (m *MockMeshCataloger) GetPortToProtocolMappingForService(arg0 service.MeshService) (map[uint32]string, error) {
 	m.ctrl.T.Helper()
@@ -84,6 +99,7 @@ func (mr *MockMeshCatalogerMockRecorder) GetPortToProtocolMappingForService(arg0
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPortToProtocolMappingForService", reflect.TypeOf((*MockMeshCataloger)(nil).GetPortToProtocolMappingForService), arg0)
 }
 
+// TODO : remove as a part of routes refactor (#2397)
 // GetResolvableHostnamesForUpstreamService mocks base method
 func (m *MockMeshCataloger) GetResolvableHostnamesForUpstreamService(arg0, arg1 service.MeshService) ([]string, error) {
 	m.ctrl.T.Helper()
@@ -93,6 +109,7 @@ func (m *MockMeshCataloger) GetResolvableHostnamesForUpstreamService(arg0, arg1 
 	return ret0, ret1
 }
 
+// TODO : remove as a part of routes refactor (#2397)
 // GetResolvableHostnamesForUpstreamService indicates an expected call of GetResolvableHostnamesForUpstreamService
 func (mr *MockMeshCatalogerMockRecorder) GetResolvableHostnamesForUpstreamService(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
