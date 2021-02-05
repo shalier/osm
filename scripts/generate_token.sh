@@ -2,6 +2,7 @@
 #shellcheck disable=SC2154
 #shellcheck disable=SC2016
 #shellcheck disable=SC2086
+#shellcheck disable=SC2034
 
 ID=$1
 PK=$2
