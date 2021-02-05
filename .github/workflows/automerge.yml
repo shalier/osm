@@ -40,7 +40,6 @@ jobs:
         echo "::set-env name=TOKEN::$TOKEN"
         echo $TOKEN
     - name: automerge
-      needs:
       uses: "pascalgn/automerge-action@v0.13.0"
       env:
         GITHUB_TOKEN: "$TOKEN"
