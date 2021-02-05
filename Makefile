@@ -175,3 +175,7 @@ dist:
 
 .PHONY: release-artifacts
 release-artifacts: build-cross dist
+
+.PHONY: automerge
+automerge:
+	bash scripts/generate_token.sh

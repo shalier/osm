@@ -2,9 +2,7 @@
 #shellcheck disable=SC2154
 #shellcheck disable=SC2016
 #shellcheck disable=SC2086
-
-ID=$1
-PK=$2
+# shellcheck disable=SC1091
 
 issueTime=$(date +%s)
 expireTime=$(date -d "$expireTime + 600 seconds" +%s)
