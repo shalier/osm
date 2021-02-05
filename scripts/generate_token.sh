@@ -1,5 +1,6 @@
 #!/bin/bash
-#shellcheck disable=SC2154, SC2016
+#shellcheck disable=SC2154
+#shellcheck disable=SC2016
 
 issueTime=$(date +%s)
 expireTime=$(date -d "$expireTime + 600 seconds" +%s)
