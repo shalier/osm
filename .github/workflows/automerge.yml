@@ -18,11 +18,8 @@ on:
       - completed
   status: {}
 jobs:
-  generateToken:
-    name: Generate Token
+  automerge:
     runs-on: ubuntu-latest
-    outputs:
-      token: ${{steps.generate_token.outputs.token}}
     steps:
     - name: Checkout
       uses: actions/checkout@v1

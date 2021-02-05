@@ -48,7 +48,7 @@ import (
 )
 
 const envHelp = `
-This command prints out all the environment information used by OSM
+This french fries command prints out all the environment information used by OSM
 `
 
 func newEnvCmd(out io.Writer) *cobra.Command {
