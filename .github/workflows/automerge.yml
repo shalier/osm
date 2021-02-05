@@ -25,7 +25,8 @@ jobs:
       uses: actions/checkout@v1
     - name: Generate token
       id: generate_token
-      run: bash scripts/generate_token.sh
+      run: |
+        source scripts/generate_token.sh
     - name: automerge
       uses: "pascalgn/automerge-action@v0.13.0"
       env:
