@@ -3,13 +3,16 @@
 #shellcheck disable=SC2016
 #shellcheck disable=SC2086
 
+ID=$1
+PK=$2
+
 issueTime=$(date +%s)
 expireTime=$(date -d "$expireTime + 600 seconds" +%s)
 
 # Creates JSON Webtoken (JWT)
 header=$(echo '{ "alg": "RS256", "typ": "JWT" }' | jq -r '(. | @base64)')
-payload=$(echo '{"iss": '"${{secrets.APP_ID}}"',"iat": '$issueTime' ,"exp": '$expireTime'}'| jq -r '(. | @base64)'| sed s/\+/-/ | sed -E s/=+$//)
-echo "${{secrets.APP_PRIVATE_KEY}}" > key
+payload=$(echo '{"iss": '"$ID"',"iat": '$issueTime' ,"exp": '$expireTime'}'| jq -r '(. | @base64)'| sed s/\+/-/ | sed -E s/=+$//)
+echo "$PK" > key
 signature=$(echo -n "$header.$payload" | openssl dgst -sha256 -binary -sign key | openssl enc -base64 | tr -d '\n=' | tr -- '+/' '-_')
 
 # Uses JWT to get Installation Access Token (IAT)
