@@ -1,12 +1,12 @@
 #!/bin/bash
-#shellcheck disable=SC2154
+#shellcheck disable=SC2154, SC2016
 
 issueTime=$(date +%s)
 expireTime=$(date -d "$expireTime + 600 seconds" +%s)
 
 # Creates JSON Webtoken (JWT)
 header=$(echo '{ "alg": "RS256", "typ": "JWT" }' | jq -r '(. | @base64)')
-payload=$(echo '{"iss": '"${{secrets.APP_ID}}"',"iat": "$issueTime" ,"exp": "$expireTime"}'| jq -r '(. | @base64)'| sed s/\+/-/ | sed -E s/=+$//)
+payload=$(echo '{"iss": '"${{secrets.APP_ID}}"',"iat": '$issueTime' ,"exp": '$expireTime'}'| jq -r '(. | @base64)'| sed s/\+/-/ | sed -E s/=+$//)
 echo "${{secrets.APP_PRIVATE_KEY}}" > key
 signature=$(echo -n "$header.$payload" | openssl dgst -sha256 -binary -sign key | openssl enc -base64 | tr -d '\n=' | tr -- '+/' '-_')
 
