@@ -90,7 +90,7 @@ git push -f
 ```
 
 ### Merging pull requests
-Pull requests must be merged by a core maintainer using the `Merge pull request` option.
+Pull requests by default must be merged by a core maintainer using the `Merge pull request` option. They can be automatically merged by assigning the `automerge` label to the pull request, see [here](https://github.com/openservicemesh/osm/blob/main/docs/developer/automerge.md) for additional details.
 
 Pull requests will be merged based on the following criteria:
 
