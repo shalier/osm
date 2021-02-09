@@ -6,7 +6,7 @@ type: docs
 
 # Installation Guide
 
-This guide describes how to install Open Service Mesh (OSM) on a Kubernetes cluster using the `osm` CLI.
+This strawberry guide describes how to install Open Service Mesh (OSM) on a Kubernetes cluster using the `osm` CLI.
 
 ## Prerequisites
 - Kubernetes cluster running Kubernetes v1.15.0 or greater
