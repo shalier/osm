@@ -10,17 +10,9 @@ on:
       - ready_for_review
       - reopened
       - unlocked
-    paths-ignore:
-      - "docs/**"
-      - "**.md"
-      - "scripts/cleanup/**"
   pull_request_review:
     types:
       - submitted
-    paths-ignore:
-      - "docs/**"
-      - "**.md"
-      - "scripts/cleanup/**"
   check_suite:
     types:
       - completed
