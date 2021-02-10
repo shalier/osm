@@ -10,7 +10,7 @@ headSHA=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github
 echo repo: "$GITHUB_REPOSITORY"
 echo sha: "$headSHA"
 sleep 15m
-while [[ "$e2eStatus" != success || "$e2eStatus" != failure ]]; do
+while [[ "$e2eStatus" != success && "$e2eStatus" != failure ]]; do
     e2eStatus=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/commits/"$headSHA"/check-runs | grep -B 15 'e2e (2)' | grep 'conclusion' | awk '{print $2}' | sed 's/[^[:alnum:]]\+//g')
     echo e2eStatus "$e2eStatus"
 done
