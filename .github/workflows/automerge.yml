@@ -43,8 +43,9 @@ jobs:
       run: |
         echo $name
         echo abracadabra
-        checkSuiteID=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$name/osm/commits/$GITHUB_SHA/check-runs | grep --after-context=2 'check_suite' | head -2 | grep 'id' | awk '{print $2}')
+        checkSuiteID=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$name/osm/commits/$GITHUB_SHA/check-runs | grep --after-context=2 'check_suite' | head -2 | grep 'id' | awk '{print $2}') | sed -e 's/^"//' -e 's/",$//'
         echo checkSuiteID $checkSuiteID
+        while [ -z "$e2eStatus" ]; do e2eStatus=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$name/osm/check_suites/$checkSuiteID/check-runs | grep --beforeContext=15 'e2e' | grep 'conclusion' | awk '{print $2}'); done
         countNumStatusFail=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$name/osm/check_suites/$checkSuiteID/check-runs | grep 'conclusion' | grep 'failure' | wc -l)
         echo countNumStatusFail $countNumStatusFail
         if [ $countNumStatusFail -gt 0 ]; then
