@@ -42,7 +42,7 @@ jobs:
         name: openservicemesh
       run: |
         echo $name
-        checkSuiteID=$github.run\_id
+        checkSuiteID=$GITHUB_RUN_ID
         echo $checkSuiteID
         e2eStatus=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$name/osm/check-suites/$checkSuiteID/check-runs | grep -B 15 'e2e (2)' | grep 'conclusion' | awk '{print $2}')
         echo e2e $e2eStatus
