@@ -11,7 +11,8 @@ echo repo: "$GITHUB_REPOSITORY"
 echo sha: "$headSHA"
 curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/commits/"$headSHA"/check-runs | grep -B 15 'e2e (2)'
 exit 1
-while [ -z "$e2eStatus" ] || [ "$e2eStatus" == null ]; do
+while [[ "$e2eStatus" != success || "$e2eStatus" != failure ]]; do
+    sleep 15m
     e2eStatus=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/commits/"$headSHA"/check-runs | grep -B 15 'e2e (2)' | grep 'conclusion' | awk '{print $2}' | sed 's/[^[:alnum:]]\+//g')
     echo e2eStatus "$e2eStatus"
 done
