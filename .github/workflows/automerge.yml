@@ -23,7 +23,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
+    - name: status checker
+      env:
+        GH_REPO: ${{GITHUB_REPOSITORY}}
+        GH_RUN_ID: ${{GITHUB_RUN_ID}}
+      run: bash scripts/status-checker.sh $GH_REPO $GH_RUN_ID
     - name: Generate token
+      if: ${{ success() }}
       env:
         ID: ${{secrets.APP_ID}}
         PK: ${{secrets.APP_PRIVATE_KEY}}
@@ -37,24 +43,7 @@ jobs:
         tokenURL=$(curl -i -X GET -H "Authorization: Bearer $header.$payload.$signature" -H "Accept: application/vnd.github.v3+json" https://api.github.com/app/installations | grep 'access_tokens_url' | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
         token=$(curl -i -X POST -H "Authorization: Bearer $header.$payload.$signature" -H "Accept: application/vnd.github.v3+json" "$tokenURL" | grep 'token'| awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
         echo "GITHUB_TOKEN=$token" >> "$GITHUB_ENV"
-    - name: status checker
-      run: |
-        checkSuiteID=`curl -s https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID} | jq -r '.check_suite_id'`
-        echo ID $checkSuiteID
-        echo repo ${GITHUB_REPOSITORY}
-        e2eStatus=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${GITHUB_REPOSITORY}/check-suites/$checkSuiteID/check-runs | grep -B 15 'e2e (2)' | grep 'conclusion' | awk '{print $2}')
-        echo e2e $e2eStatus
-        curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${GITHUB_REPOSITORY}/check-suites/$checkSuiteID/check-runs
-        # while [ -z "$e2eStatus" ]; e2eStatus=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${GITHUB_REPOSITORY}/check-suites/$checkSuiteID/check-runs | grep -B 15 'e2e (2)' | grep 'conclusion' | awk '{print $2}'); echo e2eStatus $e2eStatus; done
-        countNumStatusFail=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${GITHUB_REPOSITORY}/check_suites/$checkSuiteID/check-runs | grep 'conclusion' | grep 'failure' | wc -l)
-        echo countNumStatusFail $countNumStatusFail
-        exit 1
-        if [ $countNumStatusFail -gt 0 ]; then
-          echo "$countNumStatusFail Status Checks Failed "
-          exit 1
-        fi
     - name: automerge
-      if: ${{ success() }}
       uses: "pascalgn/automerge-action@v0.13.0"
       env:
         MERGE_METHOD: "merge"
