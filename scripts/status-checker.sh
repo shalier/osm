@@ -8,7 +8,7 @@ checkSuiteID=$(curl -s https://api.github.com/repos/"$GITHUB_REPOSITORY"/actions
 
 headSHA=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/check-suites/"$checkSuiteID"/check-runs | grep head_sha| awk '{print $2}'| sed -e 's/^"//' -e 's/",$//')
 
-while [ -z "$e2eStatus" ] || [ "$e2eStatus"==null ]; do
+while [ -z "$e2eStatus" ] || [ "$e2eStatus" == null ]; do
     e2eStatus=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/commits/"$headSHA"/check-runs | grep -B 15 'e2e (2)' | grep 'conclusion' | awk '{print $2}')
     echo e2eStatus "$e2eStatus"
 done
