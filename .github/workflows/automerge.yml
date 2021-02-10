@@ -42,9 +42,9 @@ jobs:
       env:
         name: openservicemesh
       run: |
-        checkSuiteID=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$name/osm/commits/$GITHUB_SHA/check-runs | grep --after-context=2 check_suite | head -2 | grep id | awk '{print $2}')
+        checkSuiteID=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$name"/osm/commits/$GITHUB_SHA/check-runs | grep --after-context=2 'check_suite' | head -2 | grep 'id' | awk '{print $2}')
         echo $checkSuiteID
-        countNumStatusFail=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$name/osm/check_suites/$checkSuiteID/check-runs | grep conclusion | grep failure| wc -l)
+        countNumStatusFail=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$name/osm/check_suites/$checkSuiteID/check-runs | grep 'conclusion' | grep 'failure' | wc -l)
         echo $countNumStatusFail
         if [ $countNumStatusFail -gt 0 ]; then
           echo "$countNumStatusFail Status Checks Failed "
