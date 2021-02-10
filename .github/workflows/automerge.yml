@@ -24,10 +24,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: status checker
-      env:
-        GH_REPO: ${{GITHUB_REPOSITORY}}
-        GH_RUN_ID: ${{GITHUB_RUN_ID}}
-      run: bash scripts/status-checker.sh $GH_REPO $GH_RUN_ID
+      run: bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID}
     - name: Generate token
       if: ${{ success() }}
       env:
