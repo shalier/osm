@@ -30,13 +30,11 @@ jobs:
     # - name: status checker
     #   run: bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID}
     - name: Generate token
-      #if: ${{ github.event.workflow_run.conclusion == 'success' && github.event_name == 'pull_request' }}
+      if: ${{ github.event.workflow_run.conclusion == 'success'}}
       env:
         ID: ${{secrets.APP_ID}}
         PK: ${{secrets.APP_PRIVATE_KEY}}
       run: |
-        echo workflow conclusion ${github.event.workflow_run.conclusion}
-        echo event_name ${github.event_name}
         issueTime=$(date +%s)
         expireTime=$(date -d "$expireTime + 600 seconds" +%s)
         header=$(echo '{ "alg": "RS256", "typ": "JWT" }' | jq -r '(. | @base64)')
@@ -47,7 +45,7 @@ jobs:
         token=$(curl -i -X POST -H "Authorization: Bearer $header.$payload.$signature" -H "Accept: application/vnd.github.v3+json" "$tokenURL" | grep 'token'| awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
         echo "GITHUB_TOKEN=$token" >> "$GITHUB_ENV"
     - name: automerge
-      if: ${{ github.event.workflow_run.conclusion == 'success' && github.event_name == 'pull_request' }}
+      if: ${{ github.event.workflow_run.conclusion != 'failure'}}
       uses: "pascalgn/automerge-action@v0.13.0"
       env:
         MERGE_METHOD: "merge"
