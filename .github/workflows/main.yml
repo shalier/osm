@@ -255,12 +255,12 @@ jobs:
   #         CTR_TAG: ${{ github.sha }}
   #       run: make docker-push
 
-  status_trigger:
-    name: Trigger status event
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Trigger Status
-        run: |
-          curl -s -L -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -d '{"state": "pending","description": "All tests passed", "context": "status_checks/successful"}' "https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}" > tempt.txt
+  # status_trigger:
+  #   name: Trigger status event
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v1
+  #     - name: Trigger Status
+  #       run: |
+  #         curl -s -L -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -d '{"state": "pending","description": "All tests passed", "context": "status_checks/successful"}' "https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}"

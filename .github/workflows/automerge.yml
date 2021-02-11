@@ -1,23 +1,22 @@
 name: automerge
 on:
-  status
   # workflow_run:
   #   workflows: [Go]
   #   types:
   #     - completed
-  # pull_request:
-  #   types:
-  #     - labeled
-  #     - unlabeled
-  #     - synchronize
-  #     - opened
-  #     - edited
-  #     - ready_for_review
-  #     - reopened
-  #     - unlocked
-  # pull_request_review:
-  #   types:
-  #     - submitted
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
   # check_suite:
   #   types:
   #     - completed
@@ -27,6 +26,17 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
+    - name: Check status
+      run: |
+        while true; do
+          status=$(curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs" | grep -A 15 workflow_runs | grep status | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
+          if [ "$status" == "completed" ]; then
+          conclusion=$(curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs" | grep -A 15 workflow_runs | grep conclusion | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
+            if [ $conclusion == "success" ]; then
+              echo 'All status checks passed'
+            else exit 1
+            fi
+          fi
     - name: Generate token
       env:
         ID: ${{secrets.APP_ID}}
