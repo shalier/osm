@@ -1,5 +1,5 @@
 name: automerge
-on: status
+on:
   # workflow_run:
   #   workflows: [Go]
   #   types:
