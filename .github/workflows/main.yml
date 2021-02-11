@@ -263,6 +263,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Generate Token
         run: |
           issueTime=$(date +%s)
           expireTime=$(date -d "$expireTime + 600 seconds" +%s)
@@ -279,6 +280,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Trigger Status
         run: |
           curl -L -X POST -H "Authorization: token ${GITHUB_TOKEn}"
           -d '{
