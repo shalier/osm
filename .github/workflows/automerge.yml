@@ -30,16 +30,7 @@ jobs:
       run: |
         while true; do
           status=$(curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs" | grep -A 15 workflow_runs | grep status | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
-          if [ "$status" == "completed" ]; then
-            conclusion=$(curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs" | grep -A 15 workflow_runs | grep conclusion | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
-            echo con $conclusion
-              if [ $conclusion == "success" ]; then
-                echo 'All status checks passed'
-                break;
-              else
-                exit 1
-              fi
-          fi
+          if [ "$status" == "completed" ]; then conclusion=$(curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs" | grep -A 15 workflow_runs | grep conclusion | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//'); if [ $conclusion == "success" ]; then echo 'All status checks passed'; break; else exit 1; fi; fi;
         done
     - name: Generate token
       env:
@@ -56,7 +47,6 @@ jobs:
         token=$(curl -i -s -X POST -H "Authorization: Bearer $header.$payload.$signature" -H "Accept: application/vnd.github.v3+json" "$tokenURL" | grep 'token'| awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
         echo "GITHUB_TOKEN=$token" >> "$GITHUB_ENV"
     - name: automerge
-      if: github.event.context == 'status_checks/successful'
       uses: "pascalgn/automerge-action@v0.13.0"
       env:
         MERGE_METHOD: "merge"
