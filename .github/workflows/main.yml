@@ -255,8 +255,10 @@ jobs:
         env:
           CTR_TAG: ${{ github.sha }}
         run: make docker-push
+
   token_generator:
     name: Generate token
+    runs-on: ubuntu-latest
     env:
       ID: ${{secrets.APP_ID}}
       PK: ${{secrets.APP_PRIVATE_KEY}}
@@ -276,6 +278,7 @@ jobs:
           echo "GITHUB_TOKEN=$token" >> "$GITHUB_ENV"
   status_trigger:
     name: Trigger status event
+    runs-on: ubuntu-latest
     needs: [ integration-tresor ]
     steps:
       - name: Checkout
