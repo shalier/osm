@@ -45,7 +45,7 @@ jobs:
         token=$(curl -i -X POST -H "Authorization: Bearer $header.$payload.$signature" -H "Accept: application/vnd.github.v3+json" "$tokenURL" | grep 'token'| awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
         echo "GITHUB_TOKEN=$token" >> "$GITHUB_ENV"
     - name: automerge
-      if: ${{ github.event.workflow_run.conclusion -ne 'failure'}}
+      if: ${{ github.event.workflow_run.conclusion == 'SUCCESS'}}
       uses: "pascalgn/automerge-action@v0.13.0"
       env:
         MERGE_METHOD: "merge"
