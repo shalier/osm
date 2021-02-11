@@ -20,3 +20,8 @@ if [ "$countNumStatusFail" -gt 0 ]; then
     echo "$countNumStatusFail Status Checks Failed "
     exit 1
 fi
+
+        # temp=$(curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/shalier/osm/actions/runs | grep -A 15 workflow_runs )
+        # status=$(curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/shalier/osm/actions/runs | grep -A 15 workflow_runs | grep status | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
+        # conclusion=$(curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/shalier/osm/actions/runs | grep -A 15 workflow_runs | grep conclusion | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
+        # if [[ $status == completed ]]; then if [[ $conclusion != success ]]; then exit 1; else echo 'Status checks successfully completed'; fi; fi
