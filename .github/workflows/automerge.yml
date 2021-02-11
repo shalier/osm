@@ -37,6 +37,7 @@ jobs:
             else exit 1
             fi
           fi
+        done
     - name: Generate token
       env:
         ID: ${{secrets.APP_ID}}
