@@ -30,11 +30,13 @@ jobs:
     # - name: status checker
     #   run: bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID}
     - name: Generate token
-      if: ${{ github.event.workflow_run.conclusion == 'success' && github.event_name == 'pull_request' }}
+      #if: ${{ github.event.workflow_run.conclusion == 'success' && github.event_name == 'pull_request' }}
       env:
         ID: ${{secrets.APP_ID}}
         PK: ${{secrets.APP_PRIVATE_KEY}}
       run: |
+        echo workflow conclusion ${github.event.workflow_run.conclusion}
+        echo event_name ${github.event_name}
         issueTime=$(date +%s)
         expireTime=$(date -d "$expireTime + 600 seconds" +%s)
         header=$(echo '{ "alg": "RS256", "typ": "JWT" }' | jq -r '(. | @base64)')
