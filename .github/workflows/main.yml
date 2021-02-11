@@ -285,7 +285,7 @@ jobs:
         uses: actions/checkout@v1
       - name: Trigger Status
         run: |
-          curl -L -X POST -H "Authorization: token ${GITHUB_TOKEn}"
+          curl -L -X POST -H "Authorization: token ${GITHUB_TOKEN}"
           -d '{
             "state": "success",
             "description": "All tests passed", "context": "status_checks/successful"
