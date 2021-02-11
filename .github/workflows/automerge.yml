@@ -1,9 +1,10 @@
 name: automerge
 on:
-  workflow_run:
-    workflows: ["Go"]
-    types:
-      - completed
+workflow_run:
+  workflows: [Go]
+  #branches: [main]
+  types:
+    - completed
   # pull_request:
   #   types:
   #     - labeled
