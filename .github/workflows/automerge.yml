@@ -1,9 +1,5 @@
 name: automerge
 on:
-  # workflow_run:
-  #   workflows: [Go]
-  #   types:
-  #     - completed
   pull_request:
     types:
       - labeled
@@ -17,9 +13,6 @@ on:
   pull_request_review:
     types:
       - submitted
-  # check_suite:
-  #   types:
-  #     - completed
 jobs:
   automerge:
     runs-on: ubuntu-latest
@@ -27,11 +20,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Check status
-      run: |
-        while true; do
-          status=$(curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs" | grep -A 15 workflow_runs | grep status | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
-          if [ "$status" == "completed" ]; then conclusion=$(curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs" | grep -A 15 workflow_runs | grep conclusion | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//'); if [ $conclusion == "success" ]; then echo 'All status checks passed'; break; else exit 1; fi; fi;
-        done
+      run:  bash scripts/status-checker.sh
     - name: Generate token
       env:
         ID: ${{secrets.APP_ID}}
