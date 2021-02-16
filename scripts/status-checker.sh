@@ -7,7 +7,7 @@ while true; do
     status=$(curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs" | grep -A 15 workflow_runs | grep status | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
     if [ "$status" == "completed" ]; then
         conclusion=$(curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs" | grep -A 15 workflow_runs | grep conclusion | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//');
-        if [ $conclusion == "success" ]; then
+        if [ "$conclusion" == "success" ]; then
             echo 'All status checks passed';
             break;
         else exit 1;

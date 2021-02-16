@@ -20,7 +20,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Check status
-      run:  bash scripts/status-checker.sh
+      run:  bash scripts/status-checker.sh ${GITHUB_REPOSITORY}
     - name: Generate token
       env:
         ID: ${{secrets.APP_ID}}
