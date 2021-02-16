@@ -17,7 +17,7 @@ curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" https://api.github
                     echo 'Not all status checks passed'
                     exit 1
                 else
-                    echo $check workflow has completed successfully
+                    echo "$check" workflow has completed successfully
                     break
                 fi
             fi
