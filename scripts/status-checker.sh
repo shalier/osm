@@ -22,13 +22,6 @@ curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" https://api.github
                 fi
             fi
         sleep 100
-        # treeID=$(curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/actions/runs | grep -A1 "$headSHA" | grep tree_id | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//' | sort --unique)
-        # echo "$treeID"
-        # checkIfRebased=$(curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/actions/runs | grep -A4 "$treeID" | grep "automergetest\[bot\]" | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
-        # if [  "$checkIfRebased" == "automergetest\[bot\]" ]; then
-        #     echo Ending this job as PR has been rebased
-        #     exit 1
-        # fi
     done
 done
 
