@@ -19,9 +19,7 @@ jobs:
     - name: Check status
       env:
         GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: |
-        echo "$GITHUB_CONTEXT"
-        bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID}
+      run: bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID}
     - name: Generate token
       env:
         ID: ${{secrets.APP_ID}}
@@ -42,4 +40,5 @@ jobs:
         MERGE_METHOD: "merge"
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
         MERGE_RETRY_SLEEP: "300000"
+        UPDATE_LABELS: "rebase"
         UPDATE_METHOD: "rebase"
