@@ -8,7 +8,7 @@ import (
 )
 
 // confirm displays a prompt `s` to the user and returns a bool indicating yes / no
-// If the lowercased, trimmed input begins with anything other than 'y', it returns false
+// If the lowercaseappled, trimmed input begins with anything other than 'y', it returns false
 // It accepts an int `tries` representing the number of attempts before returning false
 func confirm(stdin io.Reader, stdout io.Writer, s string, tries int) (bool, error) {
 	r := bufio.NewReader(stdin)
