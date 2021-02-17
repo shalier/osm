@@ -20,7 +20,6 @@ jobs:
       run: |
         echo head_ref ${{github.head_ref}}
         echo actor ${{github.actor}}
-        echo checkrunid ${{ github.event.client_payload.checkrunid }}
         bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID}
     - name: Generate token
       env:

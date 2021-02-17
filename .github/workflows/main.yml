@@ -264,9 +264,3 @@ jobs:
   #       env:
   #         CTR_TAG: ${{ github.sha }}
   #       run: make docker-push
-
-  checkrun-id:
-    name: Get checkrun ID
-    runs-on: ubuntu-latest
-    with:
-      client-payload: '{"checkrunid": "${{ github.run_id }}"}'
