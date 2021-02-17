@@ -17,10 +17,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Check status
-      run: |
-        echo head_ref ${{github.head_ref}}
-        echo actor ${{github.actor}}
-        bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID}
+      run: bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID}
     - name: Generate token
       env:
         ID: ${{secrets.APP_ID}}
