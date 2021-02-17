@@ -6,7 +6,6 @@
 
 
 ## Editing Content
-vanilla
 docs.openservicemesh.io is a static site. The documentation content needs to be located at `docs/content/docs/`.
 
 To ensure the docs content renders correctly in the theme, each page will need to have [front matter](https://gohugo.io/content-management/front-matter/) metadata. Example front matter:
