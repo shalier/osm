@@ -4,9 +4,7 @@ on:
     types:
       - labeled
       - synchronize
-      - ready_for_review
       - reopened
-      - unlocked
 jobs:
   automerge:
     runs-on: ubuntu-latest
@@ -14,8 +12,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Check status
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
       run: bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID}
     - name: Generate token
       env:
