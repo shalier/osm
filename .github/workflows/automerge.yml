@@ -17,7 +17,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Check status
-      run: bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID}
+      run: |
+        echo ${GITHUB_CONTEXT}
+        bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID}
     - name: Generate token
       env:
         ID: ${{secrets.APP_ID}}
