@@ -28,7 +28,7 @@ curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" https://api.github
         # if [  "$checkIfRebased" == "automergetest\[bot\]" ]; then
         #     echo Ending this job as PR has been rebased
         #     exit 1
-        fi
+        # fi
     done
 done
 
