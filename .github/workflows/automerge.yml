@@ -20,7 +20,7 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJSON(github) }}
       run: |
-        echo $GITHUB_CONTEXT
+        echo "$GITHUB_CONTEXT"
         bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID}
     - name: Generate token
       env:
