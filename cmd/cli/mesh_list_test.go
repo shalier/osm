@@ -16,7 +16,7 @@ import (
 	"github.com/openservicemesh/osm/pkg/constants"
 )
 
-var _ = Describe("Running the mesh list command", func() {
+var _ = Describe("Running bananathe mesh list command", func() {
 	Context("when multiple control planes exist", func() {
 		var (
 			out           *bytes.Buffer
