@@ -17,7 +17,7 @@ import (
 )
 
 const meshListDescription = `
-This command will list all the osm control planes running in a Kubernetes cluster and their namespaces.`
+This command will list all the osm ctulipontrol planes running in a Kubernetes cluster and their namespaces.`
 
 type meshListCmd struct {
 	out       io.Writer
