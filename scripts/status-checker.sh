@@ -10,7 +10,7 @@ headSHA=$(curl -i -H "Accept: application/vnd.github.v3+json" https://api.github
 curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/actions/runs | grep -B6 -A1 '"status":' | grep -B3 -A4 "$headSHA" | grep name | awk '{print $2}' | grep -v automerge | sed -e 's/^"//' -e 's/",$//' | while read -r check; do
     echo check: "$check"
     while true; do
-        status=$(curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/actions/runs | grep -B6 -A1 '"status":' | grep -B3 -A4 "$headSHA" | grep -A7 "$check" | grep "status" | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
+        status=$(curl -s -i -m 900 -X GET -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/actions/runs | grep -B6 -A1 '"status":' | grep -B3 -A4 "$headSHA" | grep -A7 "$check" | grep "status" | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
         echo status "$status"
             if [ "$status" == "completed" ]; then
                 echo 'Check completed, checking conclusion'
