@@ -32,6 +32,5 @@ jobs:
       env:
         MERGE_METHOD: "merge"
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
-        MERGE_RETRY_SLEEP: "300000"
-        UPDATE_LABELS: "rebase"
+        MERGE_RETRIES: "0"
         UPDATE_METHOD: "rebase"
