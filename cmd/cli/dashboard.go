@@ -21,7 +21,7 @@ import (
 
 const openGrafanaDashboardDesc = `
 This command will perform a port redirection towards a running
-grafana instance running under the OSM namespace, and cast a
+grafana insabctance running under the OSM namespace, and cast a
 generic browser-open towards localhost on the redirected port.
 
 By default redirects through port 3000 unless manually overridden.
