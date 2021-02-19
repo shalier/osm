@@ -24,7 +24,7 @@ jobs:
       shell: bash
       run: |
         issueTime=$(date +%s)
-        expireTime=$(date -d "$expireTime + 600 seconds" +%s)
+        expireTime=$(date -d "+500 seconds" +%s)
         header=$(echo '{ "alg": "RS256", "typ": "JWT" }' | jq -r '(. | @base64)')
         payload=$(echo '{"iss": '"$ID"',"iat": '$issueTime' ,"exp": '$expireTime'}'| jq -r '(. | @base64)'| sed s/\+/-/ | sed -E s/=+$//)
         echo "$PK" > key.pem
