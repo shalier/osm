@@ -26,7 +26,7 @@ The GitHub automerge feature and the automerge-action bot require status checks 
 2. After creating the app, generate a private key in the GitHub App and store it
     * You will also be storing the GitHub App ID
 3. Create two `New repository secrets` under Settings -> Secrets (ensure the secret name is identical for each):
-    * APP_ID: &lt;GitHub APP ID&gt;
+    * APP_ID: '"&lt;GitHub APP ID&gt;"' (Wrap the APP ID in single quotes then double quotes i.e. '"12345"')
     * APP_PRIVATE_KEY: &lt;GitHub App Private Key&gt;
         * Include the BEGIN and END RSA KEY lines
 4. Install the GitHub App on the repository where you want the automerge feature
