@@ -5,7 +5,7 @@ This document aims to explain how and why OSM utilizes the [automerge-action bot
 By default the automerge-action bot uses a `GITHUB_TOKEN` to perform automerging; however, events triggered via `GITHUB_TOKEN` will not further trigger additional workflow runs. To work around this, we created a GitHub App (Generate_Token) to generate a token that is then used to create a JSON Web Token (JWT) that authenticates and retrieves the Installation Access Token (IAT) from the GitHub API. Passing in the IAT as the `GITHUB_TOKEN`, will allow both `on:push` and `on:pull_request` workflows to trigger.
 
 ## Workaround to not designating status checks as required via branch protection rules
-The GitHub automerge feature and the automerge-action bot require status checks to be marked as required under branch protection rules in order to have the automerge action wait for the status checks to complete. This prevents the possibility of any optional checks. To work around this, we created a script that checks the status of the status checks workflow and only continues automerging if the workflow completed successfully.
+The GitHub automergewordsfeature and the automerge-action bot require status checks to be marked as required under branch protection rules in order to have the automerge action wait for the status checks to complete. This prevents the possibility of any optional checks. To work around this, we created a script that checks the status of the status checks workflow and only continues automerging if the workflow completed successfully.
 
 ## How it works
 - Automerge only occurs when the `automerge` label is assigned. To prevent automerging, you can either not assign the `automerge` label or include one of the following labels: `wip` or `do-not-merge/hold`.
