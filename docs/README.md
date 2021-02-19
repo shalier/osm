@@ -1,12 +1,12 @@
 # Open Service Mesh Docs
 
-> :book: This section contains the [OSM Docs](https://github.com/openservicemesh/osm/tree/main/docs/content)  
-> :ship: Also the website config to generate [docs.openservicemesh.io](docs.openservicemesh.io)  
-> :link: Looking for the main OSM website? Visit [osm-www](https://github.com/openservicemesh/osm-www)  
+> :book: This section contains the [OSM Docs](https://github.com/openservicemesh/osm/tree/main/docs/content)
+> :ship: Also the website config to generate [docs.openservicemesh.io](docs.openservicemesh.io)
+> :link: Looking for the main OSM website? Visit [osm-www](https://github.com/openservicemesh/osm-www)
 
 
 ## Editing Content
-
+echo
 docs.openservicemesh.io is a static site. The documentation content needs to be located at `docs/content/docs/`.
 
 To ensure the docs content renders correctly in the theme, each page will need to have [front matter](https://gohugo.io/content-management/front-matter/) metadata. Example front matter:
@@ -50,9 +50,9 @@ Note that the full path can also specify the release (as branchname), as the str
 
 ### Internal Links
 
-Relative links between markdown pages within the site should be simpler, except [it's hard](https://github.com/openservicemesh/osm/issues/2453#issuecomment-776236289) to create links that work on both Github.com and docs.openservicemesh.io. Github paths require file extensions (`/filename.md`), whereas Hugo needs just the slug (`/filename`). 
+Relative links between markdown pages within the site should be simpler, except [it's hard](https://github.com/openservicemesh/osm/issues/2453#issuecomment-776236289) to create links that work on both Github.com and docs.openservicemesh.io. Github paths require file extensions (`/filename.md`), whereas Hugo needs just the slug (`/filename`).
 
-To ensure the relative link works in both destinations, the best approach is to write the url with the `.md` extension (for Github) and then to add an `aliases` redirect for the path with the extension. 
+To ensure the relative link works in both destinations, the best approach is to write the url with the `.md` extension (for Github) and then to add an `aliases` redirect for the path with the extension.
 
 Example - linking foo.md (1) to bar.md (2):
 
@@ -139,8 +139,8 @@ See [the Doscy versioning docs](https://www.docsy.dev/docs/adding-content/versio
 
 ## Install dependencies:
 
-* Hugo [installation guide](https://gohugo.io/getting-started/installing/)  
-* NPM packages are installed by running `yarn`. [Install Yarn](https://yarnpkg.com/getting-started/install) if you need to.  
+* Hugo [installation guide](https://gohugo.io/getting-started/installing/)
+* NPM packages are installed by running `yarn`. [Install Yarn](https://yarnpkg.com/getting-started/install) if you need to.
 
 ## Run the site:
 
