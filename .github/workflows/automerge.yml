@@ -38,5 +38,5 @@ jobs:
       env:
         MERGE_METHOD: "merge"
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
-        MERGE_RETRIES: "0"
+        MERGE_RETRIES: "1"
         UPDATE_METHOD: "rebase"
