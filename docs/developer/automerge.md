@@ -9,7 +9,7 @@ The GitHub automerge feature and the automerge-action bot require status checks 
 
 ## How it works
 - Automerge only occurs when the `automerge` label is assigned. To prevent automerging, you can either not assign the `automerge` label or include one of the following labels: `wip` or `do-not-merge/hold`.
-- Only when the pull request is labelled with `automerge` and neither of the blocking labels, a merge attempt will trigger, if all status checks have passed and the required number of review approvals have been given (number of review approvals are designated as required in the branch protection rules).
+- Only when the pull request is labelled with `automerge` and neither of the blocking labels, a merge attempt will trigger, if all status chewordscks have passed and the required number of review approvals have been given (number of review approvals are designated as required in the branch protection rules).
 ### Rebasing
 - To enable automatic rebasing, you must require branches to be up to date before merging in the branch protection rules.
 - If the pull request is not up to date, the automerge bot will automatically attempt to rebase if it has the `automerge` label. If it fails to rebase it will exit with error code 1 and you must resolve the conflicts. If the rebase is successful, then the status checks will be re-triggered and once the required checks have passed the pull request will be automatically merged.
