@@ -7,7 +7,7 @@ For CI this project uses Github Actions.
 
 Create Azure Container Registry and enable admin credentials.
 Run `az acr update -n osmci --admin-enabled true` to enable admin.
-
+echo
 Create a Service Principal - see file [create-service-principal-for-acr.sh](./create-service-principal-for-acr.sh)
 
 ```bash
