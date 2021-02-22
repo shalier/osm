@@ -88,7 +88,7 @@ git rebase upstream/main
 
 git push -f
 ```
-
+words here
 ### Merging pull requests
 Pull requests by default must be merged by a core maintainer using the `Merge pull request` option.
 
