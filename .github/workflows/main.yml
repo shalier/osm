@@ -196,7 +196,7 @@ jobs:
         run: go test ./tests/e2e -test.v -ginkgo.v -ginkgo.progress -installType=KindCluster -test.timeout 0 -test.failfast -ginkgo.failFast -ginkgo.focus='\[Bucket ${{ matrix.bucket }}\]' -ginkgo.skip='Upgrade'
       - name: Run upgrade tests
         # Only fail CI when upgrade fails if we're running on a release branch. The main branch may introduce breaking changes at any time.
-        continue-on-error: ${{ !(github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release-') || github.event_name == 'pull_request' && startsWith(github.base_ref, 'refs/heads/release-' || github.event.workflow_run.conclusion == 'success' && startsWith(github.base_ref, 'refs/heads/release-')) }}
+        continue-on-error: ${{ !(github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release-') || (github.event_name == 'pull_request' && startsWith(github.base_ref, 'refs/heads/release-')) || (github.event.workflow_run.conclusion == 'success' && startsWith(github.base_ref, 'refs/heads/release-')) }}
         run: go test ./tests/e2e -test.v -ginkgo.v -ginkgo.progress -installType=KindCluster -test.timeout 0 -test.failfast -ginkgo.failFast -ginkgo.focus='\[Bucket ${{ matrix.bucket }}\].*Upgrade'
 
   integration-tresor:
