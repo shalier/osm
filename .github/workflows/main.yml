@@ -17,10 +17,11 @@ on:
       - "**.md"
       - "scripts/cleanup/**"
   workflow_run:
-    workflows: ["automerge"]
-    # branches:
-    #   - main
-    #   - release-*
+    workflows:
+      - "automerge"
+    branches:
+      - main
+      - release-*
     # paths-ignore:
     #   - "docs/**"
     #   - "**.md"
