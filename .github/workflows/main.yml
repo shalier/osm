@@ -21,10 +21,10 @@ on:
     branches:
       - main
       - release-*
-    paths-ignore:
-      - "docs/**"
-      - "**.md"
-      - "scripts/cleanup/**"
+    # paths-ignore:
+    #   - "docs/**"
+    #   - "**.md"
+    #   - "scripts/cleanup/**"
     types: completed
 env:
   CI_WAIT_FOR_OK_SECONDS: 60
