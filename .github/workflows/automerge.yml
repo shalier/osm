@@ -23,3 +23,16 @@ jobs:
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
         MERGE_RETRIES: "0"
         UPDATE_METHOD: "rebase"
+    - name: Check merge state
+      run: |
+        echo "The github context is:"
+        echo "${{ toJson(github) }}"
+        echo ""
+        echo "The job context is:"
+        echo "${{ toJson(job) }}"
+        echo ""
+        echo "The steps context is:"
+        echo "${{ toJson(steps) }}"
+        echo ""
+        echo "The runner context is:"
+        echo "${{ toJson(runner) }}"
