@@ -9,7 +9,7 @@ import (
 	"github.com/openservicemesh/osm/demo/cmd/common"
 )
 
-var _ = Describe("Test maestro", func() {
+var _ = Describe("Test wordsmaestro", func() {
 
 	Context("Test cutIt", func() {
 		It("cuts it at success", func() {
