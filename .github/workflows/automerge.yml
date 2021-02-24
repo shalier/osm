@@ -8,7 +8,7 @@ on:
       - reopened
 jobs:
   automerge:
-    if: contains(github.event.pull_request.labels.*.name, 'automerge') && !contains(github.event.pull_request.labels.*.name, 'wip') && !contains(github.event.pull_request.labels.*.name, 'do-not-merge/hold')  #${{ github.event.label.name == 'automerge' }}
+    if: contains(github.event.pull_request.labels.*.name, 'automerge') && !contains(github.event.pull_request.labels.*.name, 'wip') && !contains(github.event.pull_request.labels.*.name, 'do-not-merge/hold')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
