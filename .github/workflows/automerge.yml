@@ -23,7 +23,7 @@ jobs:
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
         MERGE_RETRIES: "0"
         UPDATE_METHOD: "rebase"
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: echo "$GITHUB_CONTEXT"
+    - name: Check if merged
+      run: |
+        echo ${github.number}
+        bash scripts/check-merge-state.sh ${github.number}
