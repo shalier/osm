@@ -20,6 +20,12 @@ on:
     workflows:
       - "automerge"
     types: completed
+  workflow_dispatch:
+    inputs:
+    name:
+      description: 'Reason for triggering'
+      required: true
+      default: 'Re-run status checks'
 env:
   CI_WAIT_FOR_OK_SECONDS: 60
   CI_MAX_ITERATIONS_THRESHOLD: 60
