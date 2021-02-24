@@ -24,6 +24,8 @@ jobs:
         MERGE_RETRIES: "0"
         UPDATE_METHOD: "rebase"
     - name: Check if merged
+      env:
+        PR_NUMBER: ${{ github.event.number }}
       run: |
-        echo ${github.number}
-        bash scripts/check-merge-state.sh ${github.number}
+        echo $PR_NUMBER
+        bash scripts/check-merge-state.sh $PR_NUMBER
