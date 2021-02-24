@@ -10,7 +10,6 @@ while true; do
         if [ "$merged" == false ]; then
             exit 1
         else
-            exit 1
             break
         fi
     fi
