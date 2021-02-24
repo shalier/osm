@@ -24,6 +24,6 @@ jobs:
         MERGE_RETRIES: "0"
         UPDATE_METHOD: "rebase"
     - name: Check if rebased
-      run: bash scripts/check-if-rebased.sh
+      run: bash scripts/check-if-rebased.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} ${{github.ref}} ${GITHUB_RUN_ID}
     - name: Check if successful automerge
       run: bash scripts/check-automerge-status.sh ${{ github.event.number }} || exit 1
