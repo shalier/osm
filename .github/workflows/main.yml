@@ -246,7 +246,6 @@ jobs:
 
 
   images:
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     name: Docker Images
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' ||  github.event.workflow_run.conclusion == 'success' }}
