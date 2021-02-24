@@ -26,13 +26,13 @@ jobs:
     - name: Check merge state
       run: |
         echo "The github context is:"
-        echo "${{ toJson(github) }}"
+        echo "${{ github }}"
         echo ""
         echo "The job context is:"
-        echo "${{ toJson(job) }}"
+        echo "${{ job }}"
         echo ""
         echo "The steps context is:"
-        echo "${{ toJson(steps) }}"
+        echo "${{ steps }}"
         echo ""
         echo "The runner context is:"
-        echo "${{ toJson(runner) }}"
+        echo "${{ runner }}"
