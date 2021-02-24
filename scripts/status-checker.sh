@@ -21,7 +21,7 @@ curl -s -i -X GET -H "Accept: application/vnd.github.v3+json" https://api.github
                     break
                 fi
             fi
-        sleep 300
+        sleep 100
     done
 done
 
