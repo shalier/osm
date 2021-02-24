@@ -13,7 +13,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-    - name: Check status
+    - name: Confirm status check completion
       run: bash scripts/status-checker.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID} || exit 1
     - name: automerge
       uses: "pascalgn/automerge-action@v0.13.0"
@@ -23,9 +23,5 @@ jobs:
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
         MERGE_RETRIES: "0"
         UPDATE_METHOD: "rebase"
-    - name: Check if merged
-      env:
-        PR_NUMBER: ${{ github.event.number }}
-      run: |
-        echo $PR_NUMBER
-        bash scripts/check-merge-state.sh $PR_NUMBER
+    - name: Check if successful automerge
+      run: bash scripts/check-automerge-status.sh ${{ github.event.number }}

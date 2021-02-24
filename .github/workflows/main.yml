@@ -1,13 +1,13 @@
 name: Go
 on:
-  # push:
-  #   branches:
-  #     - main
-  #     - release-*
-  #   paths-ignore:
-  #     - "docs/**"
-  #     - "**.md"
-  #     - "scripts/cleanup/**"
+  push:
+    branches:
+      - main
+      - release-*
+    paths-ignore:
+      - "docs/**"
+      - "**.md"
+      - "scripts/cleanup/**"
   pull_request:
     branches:
       - main
@@ -39,37 +39,28 @@ jobs:
       - name: ShellCheck
         run: shellcheck -x $(find . -name '*.sh')
 
-  context:
-      runs-on: ubuntu-latest
-      name: Context
-      steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
+  lint:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.30
+          args: --timeout 5m
 
-  # lint:
-  #   if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
-  #   name: Lint
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v1
-  #     - name: golangci-lint
-  #       uses: golangci/golangci-lint-action@v2
-  #       with:
-  #         version: v1.30
-  #         args: --timeout 5m
-
-  # tidy:
-  #   if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
-  #   name: Tidy
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v1
-  #     - name: go mod tidy
-  #       run: make go-mod-tidy
+  tidy:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    name: Tidy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: go mod tidy
+        run: make go-mod-tidy
 
   # charts:
   #   if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
