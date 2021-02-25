@@ -1,4 +1,4 @@
-name: automerge
+name: Automerge
 on:
   pull_request:
     types:
@@ -21,9 +21,9 @@ jobs:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         MERGE_METHOD: "merge"
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
-        MERGE_RETRIES: "3"
+        MERGE_RETRIES: "0"
         UPDATE_METHOD: "rebase"
-    # - name: Check if rebased
-    #   run: bash scripts/check-if-rebased.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} ${{github.ref}} ${GITHUB_RUN_ID}
+    - name: Check rebase
+      run: bash scripts/check-if-rebased.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} ${GITHUB_RUN_ID} ${{github.ref}}
     - name: Check if successful automerge
       run: bash scripts/check-automerge-status.sh ${{ github.event.number }} || exit 1
