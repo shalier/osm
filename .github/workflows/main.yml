@@ -18,7 +18,7 @@ on:
       - "scripts/cleanup/**"
   workflow_run:
     workflows:
-      - "Validate automerge"
+      - "Automerge"
     types: completed
 env:
   CI_WAIT_FOR_OK_SECONDS: 60
