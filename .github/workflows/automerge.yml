@@ -25,6 +25,7 @@ jobs:
         UPDATE_METHOD: "rebase"
 
   validateAutomerge:
+    needs: automerge
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
