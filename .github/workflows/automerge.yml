@@ -23,16 +23,10 @@ jobs:
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
         MERGE_RETRIES: "0"
         UPDATE_METHOD: "rebase"
-
-  validateAutomerge:
-    needs: automerge
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
     - name: Check if successful automerge
+      run: bash scripts/check-automerge-status.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} || exit 1
+    - name: Debugging
       run: |
-        bash scripts/check-automerge-status.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} || exit 1
-    - name: Re-trigger status checks if rebased
-      if: ${{ failure() }}
-      run: bash scripts/check-if-rebased.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} ${{ secrets.GITHUB_TOKEN }}
+      # bash scripts/check-if-rebased.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} ${{ secrets.GITHUB_TOKEN }}
+      echo ref=${GITHUB_REF}
+      curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/shalier/osm/commits/"${GITHUB_REF}"/status
