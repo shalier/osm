@@ -11,7 +11,8 @@ while [ -z "$rebaseable" ] || [ "$rebaseable" == "null" ]; do
     echo rebaseable "$rebaseable"
 
     if [ "$rebaseable" == "true" ]; then
-        patch=$(curl -X PATCH -H "Authorization Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/pulls/"$PR_NUM" -d '{"state":"closed"}' | grep state)
+        curl -X PATCH -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/pulls/"$PR_NUM" -d '{"state":"closed"}'
+        patch=$(curl -X PATCH -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/pulls/"$PR_NUM" -d '{"state":"closed"}' | grep state)
         echo "$patch"
         # curl -X PATCH -H "Authorization Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$GITHUB_REPOSITORY"/pulls/"$PR_NUM" -d '{"state":"open"}'
 
