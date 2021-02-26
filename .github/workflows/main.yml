@@ -30,7 +30,6 @@ env:
 
 jobs:
   checkAutomerge:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: automerge check
     runs-on: ubuntu-latest
     steps:

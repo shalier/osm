@@ -23,10 +23,13 @@ jobs:
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
         MERGE_RETRIES: "0"
         UPDATE_METHOD: "rebase"
-    - name: Check if successful automerge
-      run: bash scripts/check-automerge-status.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} || exit 1
     - name: Debugging
       run: |
-        # bash scripts/check-if-rebased.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} ${{ secrets.GITHUB_TOKEN }}
         echo ref=${GITHUB_REF}
         curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/shalier/osm/commits/"${GITHUB_REF}"/status
+        workflowID=$(curl -s https://api.github.com/repos/"${GITHUB_REPOSITORY}"/actions/runs/"${GITHUB_RUN_ID}" | jq -r '.workflow_id')
+        curl -X POST -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"${GITHUB_REPOSITORY}"/actions/workflows/"$workflowID"/dispatches -d '{"ref":"'$REF'", "inputs": {"name": "Re-run status checks"}}'
+
+    - name: Check if successful automerge
+      run: bash scripts/check-automerge-status.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} || exit 1
+
