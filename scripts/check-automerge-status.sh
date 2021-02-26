@@ -12,7 +12,7 @@ while true; do
     echo merged "$merged"
     if [ "$merged" == false ]; then
         exit 1
-    else if [ "$merged" == true ]; then
+    elif [ "$merged" == true ]; then
         break
     fi
     sleep 30
