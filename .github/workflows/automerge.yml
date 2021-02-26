@@ -13,8 +13,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-      with:
-        fetch-depth: 0
     - name: Confirm status check completion
       run: bash scripts/check-workflow-completion.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID} || exit 1
     - name: automerge
@@ -25,7 +23,7 @@ jobs:
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
         MERGE_RETRIES: "0"
         UPDATE_METHOD: "rebase"
-    - name: Check rebase
-      run: bash scripts/check-if-rebased.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} ${GITHUB_RUN_ID} ${{github.ref}}
+    - name: Re-trigger status checks if rebased
+      run: bash scripts/check-if-rebased.sh ${GITHUB_REPOSITORY} ${{ github.event.number }}
     - name: Check if successful automerge
       run: bash scripts/check-automerge-status.sh ${{ github.event.number }} || exit 1
