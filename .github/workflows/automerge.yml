@@ -23,8 +23,4 @@ jobs:
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
         MERGE_RETRIES: "0"
         UPDATE_METHOD: "rebase"
-    - name: Check if successful automerge
-      run: bash scripts/check-automerge-status.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} || exit 1
-    - name: Re-trigger status checks if rebased
-      if: ${{ failure() }}
-      run: bash scripts/check-if-rebased.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} ${{ secrets.GITHUB_TOKEN }}
+
