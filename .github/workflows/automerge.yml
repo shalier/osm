@@ -13,6 +13,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
+      with:
+        fetch-depth: 0
     - name: Confirm status check completion
       run: bash scripts/check-workflow-completion.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID} || exit 1
     - name: automerge
