@@ -29,17 +29,6 @@ env:
   OSM_HUMAN_DEBUG_LOG: true
 
 jobs:
-  checkAutomerge:
-    name: automerge check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: debug
-        run: |
-          echo ref=${GITHUB_REF}
-          curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/shalier/osm/commits/"${GITHUB_REF}"/status
-
   shellcheck:
     if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     name: Shellcheck
