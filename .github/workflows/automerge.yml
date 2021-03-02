@@ -22,6 +22,7 @@ jobs:
         MERGE_METHOD: "merge"
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
         MERGE_RETRIES: "0"
+        UPDATE_LABELS: "no-rebase"
         UPDATE_METHOD: "rebase"
     # - name: Debugging
     #   run: |
