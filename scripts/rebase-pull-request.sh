@@ -27,3 +27,4 @@ while true; do
     echo "waiting 30s before checking if merged"
     sleep 30
 done
+#words
