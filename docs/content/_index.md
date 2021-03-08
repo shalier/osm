@@ -3,7 +3,7 @@ title: "Docs"
 description: "Open Service Mesh documentation and resources."
 type: docs
 ---
-
+bye
 ## Overview
 
 OSM runs an Envoy based control plane on Kubernetes, can be configured with SMI APIs, and works by injecting an Envoy proxy as a sidecar container next to each instance of your application. The proxy contains and executes rules around access control policies, implements routing configuration, and captures metrics. The control plane continually configures proxies to ensure policies and routing rules are up to date and ensures proxies are healthy.
