@@ -1,5 +1,5 @@
 pull_request_rules:
-  - name: Automatic merge if not paths-ignore
+  - name: Automatic merge for not paths-ignore
     conditions:
       - base=main
       - "check-success=Shellcheck"
@@ -16,36 +16,10 @@ pull_request_rules:
         method: merge
         strict: true
 
-  - name: Automatic merge if docs
+  - name: Automatic merge for paths-ignore
     conditions:
-      - files~=[^docs/, .md]
-      - -files~=^((?!docs/).)*$
-      - base=main
-      - label=automerge
-      - -label=wip
-      - -label=do-not-merge/hold
-    actions:
-      merge:
-        method: merge
-        strict: true
-
-  - name: Automatic merge if markdown
-    conditions:
-      - files=.md
-      - -files~=^((?!.md).)*$
-      - base=main
-      - label=automerge
-      - -label=wip
-      - -label=do-not-merge/hold
-    actions:
-      merge:
-        method: merge
-        strict: true
-
-  - name: Automatic merge if scripts/cleanup
-    conditions:
-      - files~=^scripts/cleanup/
-      - -files~=^((?!scripts/cleanup/).)*$
+      - files~=[^docs/, .md, ^scripts/cleanup/]
+      - -files~=[^((?!docs/).)*$, ^((?!.md).)*$, ^((?!scripts/cleanup/).)*$]
       - base=main
       - label=automerge
       - -label=wip
