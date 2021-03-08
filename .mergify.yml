@@ -4,6 +4,11 @@ pull_request_rules:
       - -files~=^docs/
       - base=main
       - "check-success=Shellcheck"
+      - "check-success=Lint"
+      - "check-success=Tidy"
+      - "check-success=Mocks"
+      - "check-success=Chart checks"
+      - "check-success=Go build"
     actions:
       merge:
         method: merge
