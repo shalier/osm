@@ -1,0 +1,17 @@
+pull_request_rules:
+  - name: Automatic merge on main
+    conditions:
+      - -files~=^docs/
+      - base=main
+      - "check-success=Shellcheck"
+    actions:
+      merge:
+        method: merge
+        strict: true
+
+  - name: Automatic rebase
+    conditions:
+      - -conflict
+      - -draft
+    actions:
+      update: {}
