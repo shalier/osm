@@ -1,14 +1,29 @@
 pull_request_rules:
-  - name: Automatic merge on main
+  - name: Automatic merge if not paths-ignore
     conditions:
       - -files~=^docs/
+      - -files~=^.md
+      - -files~=^scripts/cleanup/
       - base=main
+      - base=release-*
       - "check-success=Shellcheck"
       - "check-success=Lint"
       - "check-success=Tidy"
       - "check-success=Mocks"
       - "check-success=Chart checks"
       - "check-success=Go build"
+    actions:
+      merge:
+        method: merge
+        strict: true
+  - name: Automatic merge if paths-ignore
+    conditions:
+      - files~=^docs/
+      - files~=^.md
+      - files~=^scripts/cleanup/
+      - base=main
+      - base=release-*
+
     actions:
       merge:
         method: merge
