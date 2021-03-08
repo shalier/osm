@@ -18,8 +18,8 @@ pull_request_rules:
 
   - name: Automatic merge if docs
     conditions:
-      - files~=^docs/
-      - -files!=^docs/
+      - files~=[^docs/, .md]
+      - -files~=^((?!docs/).)*$
       - base=main
       - label=automerge
       - -label=wip
@@ -31,8 +31,8 @@ pull_request_rules:
 
   - name: Automatic merge if markdown
     conditions:
-      - files~=^.md
-      - -files!=^.md
+      - files=.md
+      - -files~=^((?!.md).)*$
       - base=main
       - label=automerge
       - -label=wip
@@ -45,7 +45,7 @@ pull_request_rules:
   - name: Automatic merge if scripts/cleanup
     conditions:
       - files~=^scripts/cleanup/
-      - -files!=^scripts/cleanup/
+      - -files~=^((?!scripts/cleanup/).)*$
       - base=main
       - label=automerge
       - -label=wip
