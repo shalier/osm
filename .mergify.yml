@@ -21,10 +21,34 @@ pull_request_rules:
         method: merge
         strict: true
 
-  - name: Automatic merge if paths-ignore
+  - name: Automatic merge if docs
     conditions:
       - files~=^docs/
+      - base=main
+      - base=release-*
+      - label=automerge
+      - -label=wip
+      - -label=do-not-merge/hold
+    actions:
+      merge:
+        method: merge
+        strict: true
+
+  - name: Automatic merge if markdown
+    conditions:
       - files~=^.md
+      - base=main
+      - base=release-*
+      - label=automerge
+      - -label=wip
+      - -label=do-not-merge/hold
+    actions:
+      merge:
+        method: merge
+        strict: true
+
+  - name: Automatic merge if scripts/cleanup
+    conditions:
       - files~=^scripts/cleanup/
       - base=main
       - base=release-*
