@@ -8,6 +8,10 @@ pull_request_rules:
       - "check-success=Mocks"
       - "check-success=Chart checks"
       - "check-success=Go build"
+      - "check-success=Go test"
+      - "check-success=Test various Envoy + SMI configuration scenarios"
+      - "check-success=Integration Test with Tresor, SMI traffic policies, and egress disabled"
+      - "check-success=Go test e2e"
       - label=automerge
       - -label=wip
       - -label=do-not-merge/hold
@@ -21,6 +25,40 @@ pull_request_rules:
       - files~=[^docs/, .md, ^scripts/cleanup/]
       - -files~=[^((?!docs/).)*$, ^((?!.md).)*$, ^((?!scripts/cleanup/).)*$]
       - base=main
+      - label=automerge
+      - -label=wip
+      - -label=do-not-merge/hold
+    actions:
+      merge:
+        method: merge
+        strict: true
+
+  - name: Automatic merge for not paths-ignore on release
+    conditions:
+      - base=release
+      - "check-success=Shellcheck"
+      - "check-success=Lint"
+      - "check-success=Tidy"
+      - "check-success=Mocks"
+      - "check-success=Chart checks"
+      - "check-success=Go build"
+      - "check-success=Go test"
+      - "check-success=Test various Envoy + SMI configuration scenarios"
+      - "check-success=Integration Test with Tresor, SMI traffic policies, and egress disabled"
+      - "check-success=Go test e2e"
+      - label=automerge
+      - -label=wip
+      - -label=do-not-merge/hold
+    actions:
+      merge:
+        method: merge
+        strict: true
+
+  - name: Automatic merge for paths-ignore on release
+    conditions:
+      - files~=[^docs/, .md, ^scripts/cleanup/]
+      - -files~=[^((?!docs/).)*$, ^((?!.md).)*$, ^((?!scripts/cleanup/).)*$]
+      - base=release
       - label=automerge
       - -label=wip
       - -label=do-not-merge/hold
