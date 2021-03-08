@@ -11,7 +11,7 @@ for ns in "$BOOKWAREHOUSE_NAMESPACE" "$BOOKBUYER_NAMESPACE" "$BOOKSTORE_NAMESPAC
     kubectl delete namespace "$ns" --ignore-not-found --wait &
 done
 
-# Clean up Hashicorp Vault deployment
+# Clean up Hashicorp Vault deployment cool
 kubectl delete deployment vault -n "$K8S_NAMESPACE" --ignore-not-found --wait &
 kubectl delete service vault -n "$K8S_NAMESPACE" --ignore-not-found --wait &
 
