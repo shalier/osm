@@ -1,18 +1,13 @@
 pull_request_rules:
   - name: Automatic merge if not paths-ignore
     conditions:
-      - -files~=^docs/
-      - -files~=^.md
-      - -files~=^scripts/cleanup/
       - base=main
-      - base=release-*
       - "check-success=Shellcheck"
       - "check-success=Lint"
       - "check-success=Tidy"
       - "check-success=Mocks"
       - "check-success=Chart checks"
       - "check-success=Go build"
-      - "#approved-reviews-by>=2"
       - label=automerge
       - -label=wip
       - -label=do-not-merge/hold
@@ -24,8 +19,8 @@ pull_request_rules:
   - name: Automatic merge if docs
     conditions:
       - files~=^docs/
+      - -files!=^docs/
       - base=main
-      - base=release-*
       - label=automerge
       - -label=wip
       - -label=do-not-merge/hold
@@ -37,8 +32,8 @@ pull_request_rules:
   - name: Automatic merge if markdown
     conditions:
       - files~=^.md
+      - -files!=^.md
       - base=main
-      - base=release-*
       - label=automerge
       - -label=wip
       - -label=do-not-merge/hold
@@ -50,8 +45,8 @@ pull_request_rules:
   - name: Automatic merge if scripts/cleanup
     conditions:
       - files~=^scripts/cleanup/
+      - -files!=^scripts/cleanup/
       - base=main
-      - base=release-*
       - label=automerge
       - -label=wip
       - -label=do-not-merge/hold
