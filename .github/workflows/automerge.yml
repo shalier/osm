@@ -1,23 +1,38 @@
-name: automerge
+
+name: Automerge
 on:
   pull_request:
     types:
       - labeled
+      - unlabeled
       - synchronize
       - reopened
 jobs:
   automerge:
+    if: contains(github.event.pull_request.labels.*.name, 'automerge') && !contains(github.event.pull_request.labels.*.name, 'wip') && !contains(github.event.pull_request.labels.*.name, 'do-not-merge/hold')
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      if: ${{ github.event.label.name == 'automerge' }}
       uses: actions/checkout@v1
+    - name: Confirm status check completion
+      run: bash scripts/check-workflow-completion.sh ${GITHUB_REPOSITORY} ${GITHUB_RUN_ID} || exit 1
     - name: automerge
-      if: ${{ github.event.label.name == 'automerge' }}
       uses: "pascalgn/automerge-action@v0.13.0"
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         MERGE_METHOD: "merge"
         MERGE_LABELS: "automerge,!wip,!do-not-merge/hold"
         MERGE_RETRIES: "0"
+        UPDATE_LABELS: "no-rebase"
         UPDATE_METHOD: "rebase"
+    # - name: Debugging
+    #   run: |
+    #     echo ref=${GITHUB_REF}
+    #     curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/shalier/osm/commits/"${GITHUB_REF}"/status
+    #     sha=$( curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/shalier/osm/commits/"${GITHUB_REF}"/status| grep -m1 sha | awk '{print $2}' | sed -e 's/^"//' -e 's/",$//')
+    #     curl -X POST -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/shalier/osm/statuses/"$sha" -d '{"state":"pending"}'
+    #     workflowID=$(curl -s https://api.github.com/repos/"${GITHUB_REPOSITORY}"/actions/runs/"${GITHUB_RUN_ID}" | jq -r '.workflow_id')
+    #     curl -s -X POST -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"${GITHUB_REPOSITORY}"/actions/workflows/"$workflowID"/dispatches -d '{"ref":"'$REF'", "inputs": {"name": "Re-run status checks"}}'
+
+    - name: Check if successful automerge
+      run: bash scripts/check-automerge-status.sh ${GITHUB_REPOSITORY} ${{ github.event.number }} || exit 1
