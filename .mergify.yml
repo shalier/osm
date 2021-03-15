@@ -48,6 +48,7 @@ pull_request_rules:
       - -draft
     actions:
       rebase: {}
+      # bot_account: OSM-bot
 
   - name: Automatic rebase for rebase label
     conditions:
@@ -56,3 +57,4 @@ pull_request_rules:
       - -draft
     actions:
       rebase: {}
+      # bot_account: OSM-bot
