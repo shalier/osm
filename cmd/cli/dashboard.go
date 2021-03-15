@@ -27,6 +27,7 @@ generic browser-open towards localhost on the redirected port.
 By default redirects through port 3000 unless manually overridden.
 This command blocks if port forwarding is successful until the
 process is interrupted with a signal from the OS.
+change
 `
 const (
 	grafanaServiceName = "osm-grafana"
