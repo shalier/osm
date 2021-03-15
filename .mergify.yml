@@ -11,7 +11,10 @@ pull_request_rules:
       - "check-success=Go test"
       - "check-success=Test various Envoy + SMI configuration scenarios"
       - "check-success=Integration Test with Tresor, SMI traffic policies, and egress disabled"
-      - check-success=Go test e2e .
+      - "check-success=Go test e2e (1)"
+      - "check-success=Go test e2e (2)"
+      - "check-success=Go test e2e (3)"
+      - "check-success=Go test e2e (4)"
       - label=automerge
       - -label=wip
       - -label=do-not-merge/hold
@@ -32,7 +35,10 @@ pull_request_rules:
       - "check-success=Go test"
       - "check-success=Test various Envoy + SMI configuration scenarios"
       - "check-success=Integration Test with Tresor, SMI traffic policies, and egress disabled"
-      - "check-success=Go test e2e"
+      - "check-success=Go test e2e (1)"
+      - "check-success=Go test e2e (2)"
+      - "check-success=Go test e2e (3)"
+      - "check-success=Go test e2e (4)"
       - label=automerge
       - -label=wip
       - -label=do-not-merge/hold
