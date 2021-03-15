@@ -9,7 +9,7 @@ The following sections describe how to contribute code by opening a pull request
 
 1. Visit `https://github.com/openservicemesh/osm`.
 1. Click the `Fork` button.
-random
+
 ### 2. Clone the new fork to your workstation
 Set `GITHUB_USERNAME` to match your Github username:
 ```

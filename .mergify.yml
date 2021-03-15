@@ -22,7 +22,6 @@ pull_request_rules:
       merge:
         method: merge
         strict: true
-        merge_bot_account: shalier
 
   - name: Automatic merge for release branch
     conditions:
@@ -47,7 +46,6 @@ pull_request_rules:
       merge:
         method: merge
         strict: true
-        merge_bot_account: shalier
 
   - name: Automatic rebase for automerge label
     conditions:
