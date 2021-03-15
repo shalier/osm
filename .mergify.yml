@@ -1,5 +1,5 @@
 pull_request_rules:
-  - name: Automatic merge for not paths-ignore
+  - name: Automatic merge for main branch
     conditions:
       - base=main
       - "check-success=Shellcheck"
@@ -20,22 +20,9 @@ pull_request_rules:
         method: merge
         strict: true
 
-  - name: Automatic merge for paths-ignore
+  - name: Automatic merge for release branch
     conditions:
-      - files~=[^docs/, .md, ^scripts/cleanup/]
-      - -files~=[^((?!docs/).)*$, ^((?!.md).)*$, ^((?!scripts/cleanup/).)*$]
-      - base=main
-      - label=automerge
-      - -label=wip
-      - -label=do-not-merge/hold
-    actions:
-      merge:
-        method: merge
-        strict: true
-
-  - name: Automatic merge for not paths-ignore on release
-    conditions:
-      - base=release
+      - base=release-*
       - "check-success=Shellcheck"
       - "check-success=Lint"
       - "check-success=Tidy"
@@ -54,21 +41,17 @@ pull_request_rules:
         method: merge
         strict: true
 
-  - name: Automatic merge for paths-ignore on release
+  - name: Automatic rebase for automerge label
     conditions:
-      - files~=[^docs/, .md, ^scripts/cleanup/]
-      - -files~=[^((?!docs/).)*$, ^((?!.md).)*$, ^((?!scripts/cleanup/).)*$]
-      - base=release
       - label=automerge
-      - -label=wip
-      - -label=do-not-merge/hold
+      - -conflict
+      - -draft
     actions:
-      merge:
-        method: merge
-        strict: true
+      rebase: {}
 
-  - name: Automatic rebase
+  - name: Automatic rebase for rebase label
     conditions:
+      - label=rebase
       - -conflict
       - -draft
     actions:
