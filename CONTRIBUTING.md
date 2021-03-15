@@ -6,7 +6,7 @@ The OSM project accepts contributions via GitHub pull requests. This document ou
 The following sections describe how to contribute code by opening a pull request.
 
 ### 1. Fork the [Open Service Mesh](https://github.com/openservicemesh/osm) repository
-cool beans
+
 1. Visit `https://github.com/openservicemesh/osm`.
 1. Click the `Fork` button.
 
