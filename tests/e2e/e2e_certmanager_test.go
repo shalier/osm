@@ -10,6 +10,7 @@ import (
 	. "github.com/openservicemesh/osm/tests/framework"
 )
 
+//release
 var _ = OSMDescribe("1 Client pod -> 1 Server pod test using cert-manager",
 	OSMDescribeInfo{
 		Tier:   2,
