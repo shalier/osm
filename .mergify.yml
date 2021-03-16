@@ -25,7 +25,7 @@ pull_request_rules:
 
   - name: Automatic merge for release branch
     conditions:
-      - base=release-*
+      - base~=^release-
       - "check-success=Shellcheck"
       - "check-success=Lint"
       - "check-success=Tidy"
