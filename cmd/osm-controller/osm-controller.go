@@ -49,6 +49,7 @@ const (
 	xdsServerCertificateCommonName = "ads"
 )
 
+//test
 var (
 	verbosity          string
 	meshName           string // An ID that uniquely identifies an OSM instance
