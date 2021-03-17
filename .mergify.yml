@@ -26,7 +26,6 @@ pull_request_rules:
         method: merge
         strict: true
         # strict_method: rebase
-        update_bot_account: shalier
 
   - name: Automatic merge for release branch
     conditions:
