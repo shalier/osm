@@ -10,7 +10,7 @@ import (
 )
 
 var _ = Describe("Test maestro", func() {
-
+	//word
 	Context("Test cutIt", func() {
 		It("cuts it at success", func() {
 			str := fmt.Sprintf("foo bar %s baz", common.Success)
