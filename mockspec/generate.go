@@ -16,6 +16,7 @@ const (
 	commentPrefix = "#"
 )
 
+//word
 func main() {
 	rulesfile, err := os.Open(mockRulesFile)
 	if err != nil {
