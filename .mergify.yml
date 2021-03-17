@@ -56,14 +56,14 @@ pull_request_rules:
         strict: true
         strict_method: rebase
 
-  - name: Automatic rebase for automerge label
-    conditions:
-      - label=automerge
-      - -conflict
-      - -draft
-    actions:
-      rebase:
-        bot_account: shalier
+  # - name: Automatic rebase for automerge label
+  #   conditions:
+  #     - label=automerge
+  #     - -conflict
+  #     - -draft
+  #   actions:
+  #     rebase:
+  #       bot_account: shalier
 
   - name: Automatic rebase for autorebase label
     conditions:
