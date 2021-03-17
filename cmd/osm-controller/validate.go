@@ -11,7 +11,7 @@ func validateCLIParams() error {
 	if err := validateCertificateManagerOptions(); err != nil {
 		return errors.Errorf("Error validating certificate manager options: %s", err)
 	}
-
+	//magic
 	if meshName == "" {
 		return errors.New("Please specify the mesh name using --mesh-name")
 	}
