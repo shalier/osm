@@ -3,8 +3,8 @@ pull_request_rules:
     conditions:
       - base=main
       - "check-success=Shellcheck"
-      - "check-success=Lint"
-      # - "check-success=Tidy"
+      # - "check-success=Lint"
+      - "check-success=Tidy"
       # - "check-success=Mocks"
       # - "check-success=Chart checks"
       # - "check-success=Go build"
@@ -25,7 +25,7 @@ pull_request_rules:
       merge:
         method: merge
         strict: true
-        # strict_method: rebase
+        strict_method: rebase
 
   - name: Automatic merge for release branch
     conditions:
