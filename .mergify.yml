@@ -26,7 +26,7 @@ pull_request_rules:
         method: merge
         strict: true
         strict_method: rebase
-        update_bot_account: OSM_PR_bot
+        # update_bot_account: OSM_PR_bot
 
   - name: Automatic merge for release branch
     conditions:
@@ -54,15 +54,16 @@ pull_request_rules:
       merge:
         method: merge
         strict: true
+        strict_method: rebase
 
-  - name: Automatic rebase for automerge label
-    conditions:
-      - label=automerge
-      - -conflict
-      - -draft
-    actions:
-      rebase:
-        bot_account: OSM-PR-bot
+  # - name: Automatic rebase for automerge label
+  #   conditions:
+  #     - label=automerge
+  #     - -conflict
+  #     - -draft
+  #   actions:
+  #     rebase:
+  #       bot_account: OSM-PR-bot
 
   - name: Automatic rebase for autorebase label
     conditions:
