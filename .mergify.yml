@@ -9,15 +9,15 @@ pull_request_rules:
       - "check-success=Chart checks"
       - "check-success=Go build"
       - "check-success=Go test"
-      - "check-success=Test various Envoy + SMI configuration scenarios"
-      - "check-success=Integration Test with Tresor, SMI traffic policies, and egress disabled"
-      - "check-success=Go test e2e (1)"
-      - "check-success=Go test e2e (2)"
-      - "check-success=Go test e2e (3)"
-      - "check-success=Go test e2e (4)"
+      # - "check-success=Test various Envoy + SMI configuration scenarios"
+      # - "check-success=Integration Test with Tresor, SMI traffic policies, and egress disabled"
+      # - "check-success=Go test e2e (1)"
+      # - "check-success=Go test e2e (2)"
+      # - "check-success=Go test e2e (3)"
+      # - "check-success=Go test e2e (4)"
       - "check-success=DCO"
       - "check-success=netlify/osm-docs/deploy-preview"
-      - "#approved-reviews-by>=2"
+      # - "#approved-reviews-by>=2"
       - label=automerge
       - -label=wip
       - -label=do-not-merge/hold
@@ -25,6 +25,8 @@ pull_request_rules:
       merge:
         method: merge
         strict: true
+        strict_method: rebase
+        update_bot_account: OSM_PR_bot
 
   - name: Automatic merge for release branch
     conditions:
