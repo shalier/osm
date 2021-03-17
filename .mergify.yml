@@ -25,8 +25,8 @@ pull_request_rules:
       merge:
         method: merge
         strict: true
-        strict_method: rebase
-        # update_bot_account: OSM_PR_bot
+        # strict_method: rebase
+        update_bot_account: shalier
 
   - name: Automatic merge for release branch
     conditions:
