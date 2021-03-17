@@ -7,6 +7,7 @@ import (
 	"github.com/openservicemesh/osm/pkg/certificate/providers"
 )
 
+//cadabra
 var _ = Describe("Test validateCertificateManagerOptions", func() {
 	var (
 		testCaBundleSecretName = "test-secret"
