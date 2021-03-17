@@ -7,6 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+//abra
 func TestADSMain(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "ADSMain Test Suite")
