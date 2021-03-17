@@ -19,7 +19,7 @@ func TestJoinURL(t *testing.T) {
 		{"http://foo/", "bar", "http://foo/bar"},
 		{"http://foo", "bar", "http://foo/bar"},
 	}
-
+	//change
 	for _, ju := range joinURLtests {
 		result := joinURL(ju.baseURL, ju.path)
 		assert.Equal(result, ju.expectedOutput)
