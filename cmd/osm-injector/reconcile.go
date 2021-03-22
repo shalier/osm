@@ -20,7 +20,7 @@ func createReconciler(kubeClient *kubernetes.Clientset) error {
 		log.Error().Err(err).Msg("Error creating controller manager")
 		return err
 	}
-
+	// add another change
 	// Add a reconciler for osm-injector's mutatingwehbookconfiguration
 	if err = (&reconciler.MutatingWebhookConfigurationReconciler{
 		Client:       mgr.GetClient(),
