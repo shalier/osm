@@ -44,21 +44,21 @@ pull_request_rules:
       # check-success are true if the check ran successfully
       - "check-success=Shellcheck"
       - "check-success=Lint"
-      - "check-success=Tidy"
-      - "check-success=Mocks"
-      - "check-success=Chart checks"
-      - "check-success=Go build"
-      - "check-success=Go test"
-      - "check-success=Test various Envoy + SMI configuration scenarios"
-      - "check-success=Integration Test with Tresor, SMI traffic policies, and egress disabled"
-      - "check-success=Go test e2e (1)"
-      - "check-success=Go test e2e (2)"
-      - "check-success=Go test e2e (3)"
-      - "check-success=Go test e2e (4)"
-      - "check-success=DCO"
-      - "check-success=netlify/osm-docs/deploy-preview"
-      # True if the PR has at least 2 approving reviews
-      - "#approved-reviews-by>=2"
+      # - "check-success=Tidy"
+      # - "check-success=Mocks"
+      # - "check-success=Chart checks"
+      # - "check-success=Go build"
+      # - "check-success=Go test"
+      # - "check-success=Test various Envoy + SMI configuration scenarios"
+      # - "check-success=Integration Test with Tresor, SMI traffic policies, and egress disabled"
+      # - "check-success=Go test e2e (1)"
+      # - "check-success=Go test e2e (2)"
+      # - "check-success=Go test e2e (3)"
+      # - "check-success=Go test e2e (4)"
+      # - "check-success=DCO"
+      # - "check-success=netlify/osm-docs/deploy-preview"
+      # # True if the PR has at least 2 approving reviews
+      # - "#approved-reviews-by>=2"
       # True if the PR has the automerge label
       - label=automerge-squash
       # True if the PR does not have the wip label
