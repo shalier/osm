@@ -8,8 +8,10 @@ import (
 	xds_route "github.com/envoyproxy/go-control-plane/envoy/config/route/v3"
 	xds_matcher "github.com/envoyproxy/go-control-plane/envoy/type/matcher/v3"
 	"github.com/golang/mock/gomock"
+	"github.com/golang/protobuf/ptypes/duration"
 	"github.com/golang/protobuf/ptypes/wrappers"
 	tassert "github.com/stretchr/testify/assert"
+	"google.golang.org/protobuf/types/known/wrapperspb"
 
 	"github.com/openservicemesh/osm/pkg/apis/config/v1alpha1"
 	"github.com/openservicemesh/osm/pkg/configurator"
@@ -356,6 +358,7 @@ func TestBuildOutboundRoutes(t *testing.T) {
 				Headers:       map[string]string{"hello": "world"},
 			},
 			WeightedClusters: mapset.NewSet(testWeightedCluster),
+			RetryPolicy:      trafficpolicy.RetryPolicy{},
 		},
 	}
 	actual := buildOutboundRoutes(input)
@@ -366,9 +369,12 @@ func TestBuildOutboundRoutes(t *testing.T) {
 	assert.Equal(uint32(100), actual[0].GetRoute().GetWeightedClusters().TotalWeight.GetValue())
 	assert.Equal("testCluster", actual[0].GetRoute().GetWeightedClusters().Clusters[0].Name)
 	assert.Equal(uint32(100), actual[0].GetRoute().GetWeightedClusters().Clusters[0].Weight.GetValue())
+	assert.Equal(&xds_route.RetryPolicy{}, actual[0].GetRoute().RetryPolicy)
 }
 
 func TestBuildRoute(t *testing.T) {
+	assert := tassert.New(t)
+
 	testCases := []struct {
 		name             string
 		weightedClusters mapset.Set
@@ -378,6 +384,7 @@ func TestBuildRoute(t *testing.T) {
 		pathMatchType    trafficpolicy.PathMatchType
 		method           string
 		headersMap       map[string]string
+		retryPolicy      trafficpolicy.RetryPolicy
 		expectedRoute    *xds_route.Route
 	}{
 		{
@@ -392,7 +399,7 @@ func TestBuildRoute(t *testing.T) {
 				service.WeightedCluster{ClusterName: service.ClusterName("osm/bookstore-1/local"), Weight: 30},
 				service.WeightedCluster{ClusterName: service.ClusterName("osm/bookstore-2/local"), Weight: 70},
 			}),
-
+			retryPolicy: trafficpolicy.RetryPolicy{},
 			expectedRoute: &xds_route.Route{
 				Match: &xds_route.RouteMatch{
 					PathSpecifier: &xds_route.RouteMatch_SafeRegex{
@@ -448,6 +455,7 @@ func TestBuildRoute(t *testing.T) {
 								TotalWeight: &wrappers.UInt32Value{Value: 100},
 							},
 						},
+						RetryPolicy: &xds_route.RetryPolicy{},
 					},
 				},
 			},
@@ -463,7 +471,7 @@ func TestBuildRoute(t *testing.T) {
 			weightedClusters: mapset.NewSetFromSlice([]interface{}{
 				service.WeightedCluster{ClusterName: service.ClusterName("osm/bookstore-1/local"), Weight: 100},
 			}),
-
+			retryPolicy: trafficpolicy.RetryPolicy{},
 			expectedRoute: &xds_route.Route{
 				Match: &xds_route.RouteMatch{
 					PathSpecifier: &xds_route.RouteMatch_SafeRegex{
@@ -515,6 +523,7 @@ func TestBuildRoute(t *testing.T) {
 								TotalWeight: &wrappers.UInt32Value{Value: 100},
 							},
 						},
+						RetryPolicy: &xds_route.RetryPolicy{},
 					},
 				},
 			},
@@ -530,6 +539,9 @@ func TestBuildRoute(t *testing.T) {
 			weightedClusters: mapset.NewSetFromSlice([]interface{}{
 				service.WeightedCluster{ClusterName: service.ClusterName("osm/bookstore-1/local"), Weight: 100},
 			}),
+			retryPolicy: trafficpolicy.RetryPolicy{
+				RetryOn: "apple",
+			},
 
 			expectedRoute: &xds_route.Route{
 				Match: &xds_route.RouteMatch{
@@ -561,6 +573,9 @@ func TestBuildRoute(t *testing.T) {
 								TotalWeight: &wrappers.UInt32Value{Value: 100},
 							},
 						},
+						RetryPolicy: &xds_route.RetryPolicy{
+							RetryOn: "apple",
+						},
 					},
 				},
 			},
@@ -576,7 +591,11 @@ func TestBuildRoute(t *testing.T) {
 			weightedClusters: mapset.NewSetFromSlice([]interface{}{
 				service.WeightedCluster{ClusterName: service.ClusterName("osm/bookstore-1/local"), Weight: 100},
 			}),
-
+			retryPolicy: trafficpolicy.RetryPolicy{
+				RetryOn:       "banana",
+				PerTryTimeout: &duration.Duration{Seconds: 2},
+				NumRetries:    &wrapperspb.UInt32Value{Value: 45},
+			},
 			expectedRoute: &xds_route.Route{
 				Match: &xds_route.RouteMatch{
 					PathSpecifier: &xds_route.RouteMatch_Prefix{
@@ -607,6 +626,11 @@ func TestBuildRoute(t *testing.T) {
 								TotalWeight: &wrappers.UInt32Value{Value: 100},
 							},
 						},
+						RetryPolicy: &xds_route.RetryPolicy{
+							RetryOn:       "banana",
+							PerTryTimeout: &duration.Duration{Seconds: 2},
+							NumRetries:    &wrapperspb.UInt32Value{Value: 45},
+						},
 					},
 				},
 			},
@@ -615,14 +639,10 @@ func TestBuildRoute(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			assert := tassert.New(t)
-
-			actual := buildRoute(tc.pathMatchType, tc.path, tc.method, tc.headersMap, tc.weightedClusters, tc.totalWeight, tc.direction)
-
+			actual := buildRoute(tc.pathMatchType, tc.path, tc.method, tc.headersMap, tc.weightedClusters, tc.totalWeight, tc.direction, tc.retryPolicy)
 			// Assert route.Match
 			assert.Equal(tc.expectedRoute.Match.PathSpecifier, actual.Match.PathSpecifier)
 			assert.ElementsMatch(tc.expectedRoute.Match.Headers, actual.Match.Headers)
-
 			// Assert route.Action
 			assert.Equal(tc.expectedRoute.Action, actual.Action)
 		})
@@ -890,6 +910,11 @@ func TestBuildEgressRoute(t *testing.T) {
 						WeightedClusters: mapset.NewSetFromSlice([]interface{}{
 							service.WeightedCluster{ClusterName: "foo.com:80", Weight: 100},
 						}),
+						RetryPolicy: trafficpolicy.RetryPolicy{
+							RetryOn:       "pear",
+							PerTryTimeout: &duration.Duration{Seconds: 2},
+							NumRetries:    &wrapperspb.UInt32Value{Value: 3},
+						},
 					},
 				},
 				{
@@ -902,6 +927,11 @@ func TestBuildEgressRoute(t *testing.T) {
 						WeightedClusters: mapset.NewSetFromSlice([]interface{}{
 							service.WeightedCluster{ClusterName: "foo.com:80", Weight: 100},
 						}),
+						RetryPolicy: trafficpolicy.RetryPolicy{
+							RetryOn:       "cake",
+							PerTryTimeout: &duration.Duration{Seconds: 2},
+							NumRetries:    &wrapperspb.UInt32Value{Value: 3},
+						},
 					},
 				},
 			},
@@ -939,6 +969,11 @@ func TestBuildEgressRoute(t *testing.T) {
 									TotalWeight: &wrappers.UInt32Value{Value: 100},
 								},
 							},
+							RetryPolicy: &xds_route.RetryPolicy{
+								RetryOn:       "pear",
+								PerTryTimeout: &duration.Duration{Seconds: 2},
+								NumRetries:    &wrapperspb.UInt32Value{Value: 3},
+							},
 						},
 					},
 				},
@@ -974,6 +1009,11 @@ func TestBuildEgressRoute(t *testing.T) {
 									},
 									TotalWeight: &wrappers.UInt32Value{Value: 100},
 								},
+							},
+							RetryPolicy: &xds_route.RetryPolicy{
+								RetryOn:       "cake",
+								PerTryTimeout: &duration.Duration{Seconds: 2},
+								NumRetries:    &wrapperspb.UInt32Value{Value: 3},
 							},
 						},
 					},
@@ -1015,6 +1055,7 @@ func TestBuildEgressRouteConfiguration(t *testing.T) {
 									WeightedClusters: mapset.NewSetFromSlice([]interface{}{
 										service.WeightedCluster{ClusterName: service.ClusterName("foo.com:80"), Weight: 100},
 									}),
+									RetryPolicy: trafficpolicy.RetryPolicy{},
 								},
 							},
 						},
@@ -1032,6 +1073,7 @@ func TestBuildEgressRouteConfiguration(t *testing.T) {
 									WeightedClusters: mapset.NewSetFromSlice([]interface{}{
 										service.WeightedCluster{ClusterName: service.ClusterName("bar.com:80"), Weight: 100},
 									}),
+									RetryPolicy: trafficpolicy.RetryPolicy{},
 								},
 							},
 						},
@@ -1051,6 +1093,7 @@ func TestBuildEgressRouteConfiguration(t *testing.T) {
 									WeightedClusters: mapset.NewSetFromSlice([]interface{}{
 										service.WeightedCluster{ClusterName: service.ClusterName("baz.com:90"), Weight: 100},
 									}),
+									RetryPolicy: trafficpolicy.RetryPolicy{},
 								},
 							},
 						},
@@ -1102,6 +1145,7 @@ func TestBuildEgressRouteConfiguration(t *testing.T) {
 													TotalWeight: &wrappers.UInt32Value{Value: 100},
 												},
 											},
+											RetryPolicy: &xds_route.RetryPolicy{},
 										},
 									},
 								},
@@ -1147,6 +1191,7 @@ func TestBuildEgressRouteConfiguration(t *testing.T) {
 													TotalWeight: &wrappers.UInt32Value{Value: 100},
 												},
 											},
+											RetryPolicy: &xds_route.RetryPolicy{},
 										},
 									},
 								},
@@ -1198,6 +1243,7 @@ func TestBuildEgressRouteConfiguration(t *testing.T) {
 													TotalWeight: &wrappers.UInt32Value{Value: 100},
 												},
 											},
+											RetryPolicy: &xds_route.RetryPolicy{},
 										},
 									},
 								},
