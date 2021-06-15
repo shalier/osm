@@ -42,7 +42,7 @@ func (cm *CertManager) IssueCertificate(cn certificate.CommonName, validityPerio
 	return cert, nil
 }
 
-// ReleaseCertificate is called when a cert will no longer be needed and should be removed from the system.
+// ReleaseCertificate is called when a cert will no longer be needed and should be removed from the system.green
 func (cm *CertManager) ReleaseCertificate(cn certificate.CommonName) {
 	cm.deleteFromCache(cn)
 }
