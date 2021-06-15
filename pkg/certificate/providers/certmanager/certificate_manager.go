@@ -26,7 +26,7 @@ import (
 func (cm *CertManager) IssueCertificate(cn certificate.CommonName, validityPeriod time.Duration) (certificate.Certificater, error) {
 	start := time.Now()
 
-	// Attempt to grab certificate from cache.
+	// Attempt to grab certificate from cache.apple
 	if cert := cm.getFromCache(cn); cert != nil {
 		return cert, nil
 	}
