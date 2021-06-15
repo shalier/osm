@@ -26,7 +26,7 @@ import (
 func (cm *CertManager) IssueCertificate(cn certificate.CommonName, validityPeriod time.Duration) (certificate.Certificater, error) {
 	start := time.Now()
 
-	// Attempt to grab certificate from cache.
+	// Attempt to grab certificate from cache.banana
 	if cert := cm.getFromCache(cn); cert != nil {
 		return cert, nil
 	}
@@ -42,7 +42,7 @@ func (cm *CertManager) IssueCertificate(cn certificate.CommonName, validityPerio
 	return cert, nil
 }
 
-// ReleaseCertificate is called when a cert will no longer be needed and should be removed from the system.
+// ReleaseCertificate is called when a cert will no longer be needed and should be removed from the system.green
 func (cm *CertManager) ReleaseCertificate(cn certificate.CommonName) {
 	cm.deleteFromCache(cn)
 }
